@@ -54,18 +54,22 @@ public class PrintStatATMetrics {
 		data.add(m.getExplorType_m().toString());
 		data.add(m.getExplorType_r().toString());
 		data.add(m.getExplorType_rnd().toString());
-		data.add(m.getExplorDynamic_1().toString());
-		data.add(m.getExplorDynamic_1_std().toString());
-		data.add(m.getExplorDynamic_2().toString());
-		data.add(m.getExplorDynamic_2_std().toString());
+		data.add(m.getExplorGap_1().toString());
+		data.add(m.getExplorGap_1_std().toString());
+		data.add(m.getExplorProgressiveness().toString());
+		data.add(m.getExplorProgressiveness_std().toString());
+		data.add(m.getExploreSelectionPressure().toString());
+		//
 		data.add(m.getExploitRatio().toString());
 		data.add(m.getExploitType_c().toString());
 		data.add(m.getExploitType_m().toString());
 		data.add(m.getExploitType_r().toString());
 		data.add(m.getExploitType_cln().toString());
-		data.add(m.getExploitStructure().toString());
+		data.add(m.getExploitProgressiveness().toString());
+		data.add(m.getExploitProgressiveness_std().toString());
+		data.add(m.getExploitSelectionPressure().toString());
 		data.add(m.getCountAllNodes().toString());
-		data.add(m.getRevisitedRatio().toString());		
+		data.add(m.getNonRevisitedRatio().toString());		
 		return data;
 		
 	}
@@ -81,11 +85,13 @@ public class PrintStatATMetrics {
 		data.add(m.getExplorType_r().toStringStDev());
 		data.add(m.getExplorType_rnd().toStringMean());
 		data.add(m.getExplorType_rnd().toStringStDev());
-		data.add(m.getExplorDynamic_1().toStringMean());
-		data.add(m.getExplorDynamic_1().toStringStDev());
+		data.add(m.getExplorGap_1().toStringMean());
+		data.add(m.getExplorGap_1().toStringStDev());
 		//data.add(m.getExplorDynamic_1_std().toString());
-		data.add(m.getExplorDynamic_2().toStringMean());
-		data.add(m.getExplorDynamic_2().toStringStDev());
+		data.add(m.getExplorProgressiveness().toStringMean());
+		data.add(m.getExplorProgressiveness().toStringStDev());
+		data.add(m.getExploreSelectionPressure().toStringMean());
+		data.add(m.getExploreSelectionPressure().toStringStDev());
 		//data.add(m.getExplorDynamic_2_std().toString());
 		data.add(m.getExploitRatio().toStringMean());
 		data.add(m.getExploitRatio().toStringStDev());
@@ -97,10 +103,12 @@ public class PrintStatATMetrics {
 		data.add(m.getExploitType_r().toStringStDev());
 		data.add(m.getExploitType_cln().toStringMean());
 		data.add(m.getExploitType_cln().toStringStDev());
-		data.add(m.getExploitStructure().toStringMean());
-		data.add(m.getExploitStructure().toStringStDev());
-		data.add(m.getRevisitedRatio().toStringMean());
-		data.add(m.getRevisitedRatio().toStringStDev());
+		data.add(m.getExploitProgressiveness().toStringMean());
+		data.add(m.getExploitProgressiveness().toStringStDev());
+		data.add(m.getExploitSelectionPressure().toStringMean());
+		data.add(m.getExploitSelectionPressure().toStringStDev());
+		data.add(m.getNonRevisitedRatio().toStringMean());
+		data.add(m.getNonRevisitedRatio().toStringStDev());
 		//data.add(""+(int)m.getCountAllNodes().getMean());
 		return data;
 		
@@ -112,18 +120,21 @@ public class PrintStatATMetrics {
 		data.add("{\\footnotesize$explorType(m)$"+"}");
 		data.add("{\\footnotesize$explorType(r)$"+"}");
 		data.add("{\\footnotesize$explorType(rnd)$"+"}");
-		data.add("{\\footnotesize$explorDynamic_1$"+"}");
+		data.add("{\\footnotesize$explorGap$"+"}");
 		data.add("{\\footnotesize$\\hspace{15mm}stdev$"+"}");
-		data.add("{\\footnotesize$explorDynamic_2$"+"}");
+		data.add("{\\footnotesize$explorProgressiveness$"+"}");
 		data.add("{\\footnotesize$\\hspace{15mm}stdev$"+"}");
+		data.add("{\\footnotesize$exploreSelectionPressure$"+"}");
 		data.add("{\\footnotesize$exploitRatio$"+"}");
 		data.add("{\\footnotesize$exploitType(c)$"+"}");
 		data.add("{\\footnotesize$exploitType(m)$"+"}");
 		data.add("{\\footnotesize$exploitType(r)$"+"}");
 		data.add("{\\footnotesize$exploitType(cln)$"+"}");
-		data.add("{\\footnotesize$exploitStructure$"+"}");
+		data.add("{\\footnotesize$exploitProgressiveness$"+"}");
+		data.add("{\\footnotesize$\\hspace{15mm}stdev$"+"}");
+		data.add("{\\footnotesize$exploitSelectionPressure$"+"}");
 		data.add("{\\footnotesize$countAllNodes$"+"}");
-		data.add("{\\footnotesize$revisitedRatio$"+"}");
+		data.add("{\\footnotesize$nonRevisitedRatio$"+"}");
 		return data;		
 	}
 	public static ArrayList<String> getDoubleInfoColumn() {
@@ -138,10 +149,12 @@ public class PrintStatATMetrics {
 		data.add("");
 		data.add("{\\footnotesize$explorType(rnd)$"+"}");
 		data.add("");
-		data.add("{\\footnotesize$explorDynamic_1$"+"}");
+		data.add("{\\footnotesize$explorGap$"+"}");
 		data.add("");
 		//data.add("{\\footnotesize$\\hspace{15mm}stdev$"+"}");
-		data.add("{\\footnotesize$explorDynamic_2$"+"}");
+		data.add("{\\footnotesize$explorProgressiveness$"+"}");
+		data.add("");
+		data.add("{\\footnotesize$explorSelectionPressure$"+"}");
 		data.add("");
 		//data.add("{\\footnotesize$\\hspace{15mm}stdev$"+"}");
 		data.add("{\\footnotesize$exploitRatio$"+"}");
@@ -154,9 +167,11 @@ public class PrintStatATMetrics {
 		data.add("");
 		data.add("{\\footnotesize$exploitType(cln)$"+"}");
 		data.add("");
-		data.add("{\\footnotesize$exploitStructure$"+"}");
+		data.add("{\\footnotesize$exploitProgressiveness$"+"}");
 		data.add("");
-		data.add("{\\footnotesize$revisitedRatio$"+"}");
+		data.add("{\\footnotesize$exploitSelectionPressure$"+"}");
+		data.add("");
+		data.add("{\\footnotesize$nonRevisitedRatio$"+"}");
 		data.add("");
 		//data.add("{\\footnotesize$countAllNodes$"+"}");
 		return data;		

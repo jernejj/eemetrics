@@ -63,7 +63,7 @@ public class ATMetrics {
 			}
 		}
 	}
-	public double revisitedRatio() {
+	public double nonRevisitedRatio() {
 		// System.out.println(splitTrees.size()+"/"+count);
 		return Util.divide(differentSolutions,count);
 	}
@@ -126,7 +126,7 @@ public class ATMetrics {
 		return i;
 		
 	}
-	public MeanStDev explorDynamic1() {
+	public MeanStDev explorGap() {
 	  ArrayList<Double> population = new ArrayList<Double>();
 		for (Node t : splitTrees) {
 			if (t.getParent()!=null) {
@@ -136,7 +136,7 @@ public class ATMetrics {
 	  return new MeanStDev(population);
 	}
 
-	public MeanStDev explorDynamic2() {
+	public MeanStDev explorProgressiveness() {
 		  ArrayList<Double> population = new ArrayList<Double>();
 			for (Node t : splitTrees) {
 				if (t.getParent()!=null) {
@@ -226,7 +226,7 @@ public class ATMetrics {
     	}
     	return Util.divide(sumType,summAll);
     }
-    public double exploitStructure() {
+    public double exploitSelectionPressure() {
     	int leafs=0;
     	for (Node n:splitTrees) {    		
         	for (Node nn:n.getChildrens()) {
@@ -251,6 +251,54 @@ public class ATMetrics {
     	}
        	if (l) leafs++;
 		return leafs;
+	}
+    
+	private int firstExploreParent(Node n) {
+		int i=1;
+		while (n.getParent()!=null) {
+			n=n.getParent();
+			if (n.getX()>=x) { //explore condition
+				break;
+			}
+			i++; //one level more
+		}
+		return i;
+	}
+	public MeanStDev exploitProgressiveness() {
+		  ArrayList<Double> population = new ArrayList<Double>();
+			for (Node t : allNodes) {
+				if (t.getX()<x) { //explore condition
+					population.add(new Double(firstExploreParent(t))); //TODO Very slow...
+				}
+			}
+		  return new MeanStDev(population);
+
+	}
+
+	/*
+	 * if node nn has explore successor than it is not leaf 
+	 */
+	private boolean isExploreLeaf(Node nn) {
+		for (Node n:nn.getChildrens()) {
+           	if (n.getX()>=x) { //explore condition
+           		return false; //has explore leaf
+           	} else {
+           		if (!isExploreLeaf(n)) return false;
+           	}  		
+    	}
+		return true;
+	}
+	//Number of leafs in explore tree
+	public double exploreSelectionPressure() {
+    	int leafs=0;
+    	for (Node n:splitTrees) { 
+    		//
+    		if (isExploreLeaf(n)) {
+        		leafs++;
+    		}
+    	}
+    	return Util.divide(leafs,splitTrees.size());
+		//return 0;
 	}
 	
 

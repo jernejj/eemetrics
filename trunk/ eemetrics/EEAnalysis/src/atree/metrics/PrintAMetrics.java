@@ -53,18 +53,18 @@ public class PrintAMetrics {
 		data.add(formatter.format(m.explorType(1)));
 		data.add(formatter.format(m.explorType(2)));
 		data.add(formatter.format(m.explorType(3)));
-		data.add(formatter.format(m.explorDynamic1().mean));
-		data.add("{\\footnotesize $\\pm$"+stdFormat.format(m.explorDynamic1().stdev)+"}");
-		data.add(formatter.format(m.explorDynamic2().mean));
-		data.add("{\\footnotesize $\\pm$"+stdFormat.format(m.explorDynamic2().stdev)+"}");
+		data.add(formatter.format(m.explorGap().mean));
+		data.add("{\\footnotesize $\\pm$"+stdFormat.format(m.explorGap().stdev)+"}");
+		data.add(formatter.format(m.explorProgressiveness().mean));
+		data.add("{\\footnotesize $\\pm$"+stdFormat.format(m.explorProgressiveness().stdev)+"}");
 		data.add(formatter.format(m.exploitRatio()));
 		data.add(formatter.format(m.exploitType(0)));
 		data.add(formatter.format(m.exploitType(1)));
 		data.add(formatter.format(m.exploitType(2)));
 		data.add(formatter.format(m.exploitType(4)));
-		data.add(formatter.format(m.exploitStructure()));
+		data.add(formatter.format(m.exploitSelectionPressure()));
 		data.add(""+m.getCount());
-		data.add(formatter.format(m.revisitedRatio()));
+		data.add(formatter.format(m.nonRevisitedRatio()));
 		return data;
 		
 	}
@@ -75,18 +75,18 @@ public class PrintAMetrics {
 		data.add("{\\footnotesize$explorType(m)$"+"}");
 		data.add("{\\footnotesize$explorType(r)$"+"}");
 		data.add("{\\footnotesize$explorType(rnd)$"+"}");
-		data.add("{\\footnotesize$explorDynamic_1$"+"}");
+		data.add("{\\footnotesize$explorGap$"+"}");
 		data.add("{\\footnotesize$\\hspace{15mm}stdev$"+"}");
-		data.add("{\\footnotesize$explorDynamic_2$"+"}");
+		data.add("{\\footnotesize$explorProgressiveness$"+"}");
 		data.add("{\\footnotesize$\\hspace{15mm}stdev$"+"}");
 		data.add("{\\footnotesize$exploitRatio$"+"}");
 		data.add("{\\footnotesize$exploitType(c)$"+"}");
 		data.add("{\\footnotesize$exploitType(m)$"+"}");
 		data.add("{\\footnotesize$exploitType(r)$"+"}");
 		data.add("{\\footnotesize$exploitType(cln)$"+"}");
-		data.add("{\\footnotesize$exploitStructure$"+"}");
+		data.add("{\\footnotesize$exploitSelectionPressure$"+"}");
 		data.add("{\\footnotesize$countAllNodes$"+"}");
-		data.add("{\\footnotesize$revisitedRatio$"+"}");
+		data.add("{\\footnotesize$nonRevisitedRatio$"+"}");
 		return data;		
 	}
 
@@ -96,16 +96,16 @@ public class PrintAMetrics {
 		System.out.println("explorType M:"+m.explorType(1));
 		System.out.println("explorType R:"+m.explorType(2));
 		System.out.println("explorType Random:"+m.explorType(3));
-		System.out.println("explorDynamic1:"+m.explorDynamic1());
-		System.out.println("explorDynamic2:"+m.explorDynamic2());
+		System.out.println("explorDynamic1:"+m.explorGap());
+		System.out.println("explorDynamic2:"+m.explorProgressiveness());
 		System.out.println("exploitRatio:"+m.exploitRatio());
 		System.out.println("exploitType C:"+m.exploitType(0));
 		System.out.println("exploitType M:"+m.exploitType(1));
 		System.out.println("exploitType R:"+m.exploitType(2));
 		System.out.println("exploitType Clone:"+m.exploitType(4));
-		System.out.println("exploitStructure:"+m.exploitStructure());
+		System.out.println("exploitSelectionPressure:"+m.exploitSelectionPressure());
 		System.out.println("countAll:"+m.getCount());
-		System.out.println("revisitedRatio:"+m.getCount());
+		System.out.println("nonRevisitedRatio:"+m.getCount());
 		
 	}
 }
