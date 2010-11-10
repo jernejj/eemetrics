@@ -355,13 +355,13 @@ public class ExperimentIEEERunMetrics {
 	public static void main(String[] args) {
 		//Scenario 100
 		//mutationTestFirst30(); //dont use it
-		//mutationMainTest(ExperimentIEEEmetricC.mixrun, ExperimentIEEEmetricC.mixrunID, ExperimentIEEEmetricC.printrunID,problem100,4);
+		mutationMainTest(ExperimentIEEEmetricC.mixrun, ExperimentIEEEmetricC.mixrunID, ExperimentIEEEmetricC.printrunID,problem100,4);
 
 		//setArrays(ExperimentIEEEmetricC.resultsvega, 9, 0);
 		//mutationMainTest(mixrun, mixrunID, printrunID, problem100,4);
 
-		setArrays(ExperimentIEEEmetricC.resultsspea2, 9, 9);
-		mutationMainTest(mixrun, mixrunID, printrunID, problem100,4);
+		//setArrays(ExperimentIEEEmetricC.resultsspea2, 9, 9);
+		//mutationMainTest(mixrun, mixrunID, printrunID, problem100,4);
 
 		//setArrays(ExperimentIEEEmetricC.resultsvega, 9, 0);
 		//mutationMainTest(mixrun, mixrunID, printrunID);

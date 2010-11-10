@@ -46,30 +46,40 @@ public class StatATMetrics {
 		return new MeanStDev(tmpLista);
 	}
 
-	public MeanStDev getExplorDynamic_1() {
+	public MeanStDev getExplorGap_1() {
 		tmpLista.clear();
-		for (MetricsValues m:all) tmpLista.add(m.getExplorDynamic_1().mean);
+		for (MetricsValues m:all) tmpLista.add(m.getExplorGap_1().mean);
 		return new MeanStDev(tmpLista);
 	}
 	
-	public MeanStDev getExplorDynamic_1_std() {
+	public MeanStDev getExplorGap_1_std() {
 		tmpLista.clear();
-		for (MetricsValues m:all) tmpLista.add(m.getExplorDynamic_1().stdev);
+		for (MetricsValues m:all) tmpLista.add(m.getExplorGap_1().stdev);
 		return new MeanStDev(tmpLista);
 	}
 
-	public MeanStDev getExplorDynamic_2() {
+	public MeanStDev getExplorProgressiveness() {
 		tmpLista.clear();
-		for (MetricsValues m:all) tmpLista.add(m.getExplorDynamic_2().mean);
+		for (MetricsValues m:all) tmpLista.add(m.getExplorProgressiveness().mean);
 		return new MeanStDev(tmpLista);
 	}
 	
-	public MeanStDev getExplorDynamic_2_std() {
+	public MeanStDev getExplorProgressiveness_std() {
 		tmpLista.clear();
-		for (MetricsValues m:all) tmpLista.add(m.getExplorDynamic_2().stdev);
+		for (MetricsValues m:all) tmpLista.add(m.getExplorProgressiveness().stdev);
 		return new MeanStDev(tmpLista);
 	}
-
+	public MeanStDev getExploitProgressiveness() {
+		tmpLista.clear();
+		for (MetricsValues m:all) tmpLista.add(m.getExploitProgressiveness().mean);
+		return new MeanStDev(tmpLista);
+	}
+	
+	public MeanStDev getExploitProgressiveness_std() {
+		tmpLista.clear();
+		for (MetricsValues m:all) tmpLista.add(m.getExploitProgressiveness().stdev);
+		return new MeanStDev(tmpLista);
+	}
 	public MeanStDev getExploitRatio() {
 		tmpLista.clear();
 		for (MetricsValues m:all) tmpLista.add(m.getExploitRatio());
@@ -100,21 +110,25 @@ public class StatATMetrics {
 		return new MeanStDev(tmpLista);
 	}
 
-	public MeanStDev getExploitStructure() {
+	public MeanStDev getExploitSelectionPressure() {
 		tmpLista.clear();
-		for (MetricsValues m:all) tmpLista.add(m.getExploitStructure());
+		for (MetricsValues m:all) tmpLista.add(m.getExploitSelectionPressure());
 		return new MeanStDev(tmpLista);
 	}
-
+	public MeanStDev getExploreSelectionPressure() {
+		tmpLista.clear();
+		for (MetricsValues m:all) tmpLista.add(m.getExploreSelectionPressure());
+		return new MeanStDev(tmpLista);
+	}
 	public MeanStDev getCountAllNodes() {
 		tmpLista.clear();
 		for (MetricsValues m:all) tmpLista.add(m.getCountAllNodes());
 		return new MeanStDev(tmpLista);
 	}
 	
-	public MeanStDev getRevisitedRatio() {
+	public MeanStDev getNonRevisitedRatio() {
 		tmpLista.clear();
-		for (MetricsValues m:all) tmpLista.add(m.getRevisitedRatio());
+		for (MetricsValues m:all) tmpLista.add(m.getNonRevisitedRatio());
 		return new MeanStDev(tmpLista);
 	}
 	

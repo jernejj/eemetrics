@@ -11,23 +11,31 @@ public class MetricsValues {
 	private double explorType_m;
 	private double explorType_r;
 	private double explorType_rnd;
-	private MeanStDev explorDynamic_1;
-	private MeanStDev explorDynamic_2;
+	private MeanStDev explorGap;
+	private MeanStDev explorProgressiveness;
+	private MeanStDev exploitProgressiveness; //new
 	private double exploitRatio;
 	private double exploitType_c;
 	private double exploitType_m;
 	private double exploitType_r;
 	private double exploitType_cln;
-	private double exploitStructure;
+	private double exploreSelectionPressure;  //new
+	private double exploitSelectionPressure;
 	private double countAllNodes;
-	private double revisitedRatio;
+	private double nonRevisitedRatio;
 
+	public double getExploreSelectionPressure() {
+		return exploreSelectionPressure;
+	}
+	public MeanStDev getExploitProgressiveness(){
+		return exploitProgressiveness;
+	}
 	public double getExplorRatio() {
 		return explorRatio;
 	}
 	
-	public double getRevisitedRatio() {
-		return revisitedRatio;
+	public double getNonRevisitedRatio() {
+		return nonRevisitedRatio;
 	}
 
 	public double getExplorType_c() {
@@ -46,12 +54,12 @@ public class MetricsValues {
 		return explorType_rnd;
 	}
 
-	public MeanStDev getExplorDynamic_1() {
-		return explorDynamic_1;
+	public MeanStDev getExplorGap_1() {
+		return explorGap;
 	}
 
-	public MeanStDev getExplorDynamic_2() {
-		return explorDynamic_2;
+	public MeanStDev getExplorProgressiveness() {
+		return explorProgressiveness;
 	}
 
 	public double getExploitRatio() {
@@ -74,8 +82,8 @@ public class MetricsValues {
 		return exploitType_cln;
 	}
 
-	public double getExploitStructure() {
-		return exploitStructure;
+	public double getExploitSelectionPressure() {
+		return exploitSelectionPressure;
 	}
 
 	public double getCountAllNodes() {
@@ -89,15 +97,17 @@ public class MetricsValues {
 		explorType_m = m.explorType(1);
 		explorType_r = m.explorType(2);
 		explorType_rnd = m.explorType(3);
-		this.explorDynamic_1 = m.explorDynamic1();
-		this.explorDynamic_2 = m.explorDynamic2();
+		this.explorGap = m.explorGap();
+		this.explorProgressiveness = m.explorProgressiveness();
+		this.exploitProgressiveness = m.exploitProgressiveness();
 		this.exploitRatio = m.exploitRatio();
 		exploitType_c = m.exploitType(0);
 		exploitType_m = m.exploitType(1);
 		exploitType_r = m.exploitType(2);
 		exploitType_cln = m.exploitType(4);
-		this.exploitStructure = m.exploitStructure();
+		this.exploitSelectionPressure = m.exploitSelectionPressure();
+		this.exploreSelectionPressure = m.exploreSelectionPressure();
 		this.countAllNodes = m.getCount();
-		this.revisitedRatio = m.revisitedRatio();
+		this.nonRevisitedRatio = m.nonRevisitedRatio();
 	}
 }
