@@ -3,6 +3,8 @@ package atree.util;
 public class UtilTestMain {
 
 	/**
+	 * Just example test!
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -10,6 +12,7 @@ public class UtilTestMain {
 		while (lp.getState()!=LineParserECJ.EOF) {
 			System.out.println(lp.getState() +" Value:"+lp.getValue());
 			lp.nextState();
+			
 		}
 
 	}
