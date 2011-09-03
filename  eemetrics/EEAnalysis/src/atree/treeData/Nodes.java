@@ -208,4 +208,59 @@ public class Nodes {
 		}
 	}
 
+	/**
+	 * Skips comment or blank line
+	 * 
+	 * @param br
+	 * @return
+	 * @throws IOException 
+	 */
+	private String getNextLine(BufferedReader br) throws IOException {
+		boolean comment=false;
+		String s="";
+		while ((s=br.readLine()) != null) {
+			if (s.trim().length()==0) continue;
+			
+			break;
+		}
+		return s;
+	}
+	/**
+	 * ECJ format
+	 * Generation: 0
+	 * p1(-1,-1) p2(-1,-1) id(0,0) in( 1 1 0 0 0 1 0 0 0 0) c0 m0 r0
+	 * p1(-1,-1) p2(-1,-1) id(1,0) in( 1 0 0 0 1 0 1 1 1 1) c0 m0 r0
+	 * ...
+	 *  
+	 * @param file
+	 * @param maxgen
+	 */
+	public void createAll_ECJ(String file, int maxgen, double epsilon[]) {
+		FileReader fr;
+		int currGen=0;
+		try {
+			fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String s;
+			while(null != (s = br.readLine())) {
+				if (s.contains("Generation:")) {
+					s=s.replaceFirst("Generation:", "");
+					currGen = Integer.parseInt(s.trim());
+					//System.out.println("Generation:"+currGen);
+				}
+				if (currGen>maxgen) return;
+				if (s.contains("id(")) { //new individual create node
+					put(Node.convert4String(s, this,epsilon));	
+				}
+				
+			}
+			fr.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
