@@ -26,7 +26,52 @@ public class ATMetrics {
 		fillRootLeafsAndCount();
 		setRevisitedAll();
 	}
-   
+    /**
+     * TODO implement and test epsilon revisited criteria
+     * 
+     * @param epsilons
+     */
+	private void setRevisitedAll(double epsilons[]) {
+		Node tmp, tmp2;
+		int k;
+		int max=allNodes.get(0).chromo.length();
+		String s1; String s2;
+		//ArrayList<Node> allNodesCopy = new ArrayList<Node>(); 
+		for (int i=0; i < allNodes.size(); i++) {
+			tmp = allNodes.get(i);
+			if (!tmp.isRevisited()) {
+				differentSolutions++;
+				for (int j = i+1; j < allNodes.size(); j++) {
+			//	for (int j = allNodes.size()-1; j > i; j--) {
+					tmp2=allNodes.get(j);
+					if (tmp.ones1==tmp2.ones1) 
+						if (tmp.ones2==tmp2.ones2)
+							if (tmp.ones3==tmp2.ones3){
+								s1=tmp.chromo;
+								s2=tmp2.chromo;
+								max = s1.length();
+								if (max!=s2.length()) {
+									break;	
+								}
+								for (k=0;k<max;k++) {
+									if (s1.charAt(k)!=s2.charAt(k)) {
+										break;
+									}
+								}
+								if (k==max) {
+									tmp.addRevisited(); //same solution!
+									tmp2.setRevisited(true);	
+								}
+		//			  if (tmp.getChromo().equals(tmp2.getChromo())) { SLOW
+		//				tmp.addRevisited(); //same solution!
+		//				tmp2.setRevisited(true);
+		//			  } 
+					}
+				}
+			}
+		}
+	}
+ 
 	private void setRevisitedAll() {
 		Node tmp, tmp2;
 		int k;
@@ -45,6 +90,10 @@ public class ATMetrics {
 							if (tmp.ones3==tmp2.ones3){
 								s1=tmp.chromo;
 								s2=tmp2.chromo;
+								max = s1.length();
+								if (max!=s2.length()) {
+									break;	
+								}
 								for (k=0;k<max;k++) {
 									if (s1.charAt(k)!=s2.charAt(k)) {
 										break;

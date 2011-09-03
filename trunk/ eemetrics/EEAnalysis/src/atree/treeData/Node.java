@@ -2,6 +2,8 @@ package atree.treeData;
 
 import java.util.ArrayList;
 
+import atree.util.LineParserECJ;
+
 public class Node implements Comparable<Node> {
 	private Node parent;
 	private ArrayList<Node> childrens;
@@ -70,8 +72,10 @@ public class Node implements Comparable<Node> {
 	}
 	public void setParent(Node parent) {
 		this.parent = parent;
+		if (parent!=null)
 		parent.addChild(this);
 	}
+
 	public ArrayList<Node> getChildrens() {
 		return childrens;
 	}
@@ -198,6 +202,75 @@ public class Node implements Comparable<Node> {
 		String key= "("+stepThree[1]+","+stepThree[0]+")";
 		if (all.containsKey(key)) r.setParent(all.get(key));
 		return r;
+	}
+	//Example: p1(-1,-1) p2(-1,-1) id(1,0) in( 1 0 0 0 1 0 1 1 1 1) c0 m0 r0
+	public static Node convert4String(String line, Nodes all, double epsilon[]) {
+		LineParserECJ lp = new LineParserECJ(line);
+		Node r = new Node();
+		Node p1,p2;
+		p1=null;
+		p2=null;
+		String id[];
+		String key;
+		while (lp.getState()!=LineParserECJ.EOF) {
+			switch (lp.getState()) {
+			case LineParserECJ.ID:
+				id = lp.getValues(",");
+				r.setIdInPop(Long.parseLong(id[0]));
+				r.setIdGen(Long.parseLong(id[1]));
+				break;
+			case LineParserECJ.P1:
+				id = lp.getValues(",");
+				key= "("+id[1]+","+id[0]+")";
+				if (all.containsKey(key)) p1=all.get(key);
+				break;
+			case LineParserECJ.P2:
+				id = lp.getValues(",");
+				key= "("+id[1]+","+id[0]+")";
+				if (all.containsKey(key)) p2=all.get(key);
+				break;
+			case LineParserECJ.IN:
+				r.setChromo(lp.getValue().trim());
+				break;
+			case LineParserECJ.MUTAT:
+				r.setM(lp.getIntValue()>0);
+				break;
+			case LineParserECJ.CROSS:
+				r.setC(lp.getIntValue()>0);
+				break;
+			case LineParserECJ.REPAIR:
+				r.setR(lp.getIntValue()>0);
+				break;
+			}
+			lp.nextState();
+		}
+
+		int x_p1 = calcX(r, p1, epsilon);
+		int x_p2 = calcX(r, p2, epsilon);
+		if (x_p2<x_p1) { //most equal is parant2
+			r.setParent(p2);
+			r.setX(x_p2);
+		} else {
+			r.setParent(p1);
+			r.setX(x_p1);	
+		}
+		if (r.isRnd()) {
+			System.out.println(line);
+		}
+		return r;
+	}
+	private static int calcX(Node r, Node p, double[] epsilon) {
+		if (p==null) return Integer.MAX_VALUE;
+		String l[] = r.chromo.split(" ");
+		double d1,d2;
+		String lp[] = p.chromo.split(" ");
+		int x=0;
+		for (int i=0; i<l.length; i++) {
+			d1 = Double.parseDouble(l[i]); 
+			d2 = Double.parseDouble(lp[i]);
+			if (Math.abs(d1-d2)>epsilon[i]) x++;
+		}
+		return x;
 	}
 	
 }
