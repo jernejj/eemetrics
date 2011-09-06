@@ -11,7 +11,9 @@ public class Nodes {
 	private Hashtable<String, Node> ht;
 	private ArrayList<Node> initTrees;
 	private ArrayList<Node> paretoList;
-
+	public static final int SCENARIO_NORMAL = 0;
+	public static final int SCENARIO_OPTIMISTIC = 1;
+	public static final int SCENARIO_SEMI_OPTIMISTIC = 2;
 	public Hashtable<String, Node> getAllNodes() {
 		return ht;
 	}
