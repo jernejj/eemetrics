@@ -254,9 +254,10 @@ public class Node implements Comparable<Node> {
 			r.setParent(p1);
 			r.setX(x_p1);	
 		}
-		if (r.isRnd()) {
-			System.out.println(line);
-		}
+		
+		//if (r.isRnd()) {
+		//	System.out.println(line);
+		//}
 		return r;
 	}
 	private static int calcX(Node r, Node p, double[] epsilon) {
