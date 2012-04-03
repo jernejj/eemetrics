@@ -10,19 +10,24 @@ import atree.treeData.Nodes;
 import atree.util.Util;
 
 
-public class ExperimentECJ_PSO {
+public class ExperimentECJ_DE {
 	//RastriginEEstatPSO_a1.stat
 	//SpherePSOOut_a1.STAT
-	public static String dir = "test_cases/ecj/pso/"; // on mac linux "/"
-	public static String problem_1 = "SchwefeEEstat_a";
-	//public static String problem_2 = "SphereEEstatPSO_a";
+	public static String dir = "test_cases/ecj/de/"; // on mac linux "/"
+	public static String pripona = "PSO";
+//	public static String dir = "D:\\My Documents\\fax\\Doktorat\\Workplace\\ecj\\ec\\EEstat\\samples\\"+pripona+"/"; // on mac linux "/"
+	public static String function = "Rosenbrock";
+	public static String problem_1 = function + "Best" + "EEStat" + "_a";
+	public static String problem_2 = function + "PSO" + "EEStat" + "_a";
+	public static String problem_3 = function + "ES" + "EEStat" + "_c";
+	public static String problem_4 = "Rosenbrock" + pripona + "EEStat" + "_a";
 	public static String analiza = "a";
 
 
 	public static String[] mixrun;
 	public static int[] mixrunID;
 	public static int[] printrunID; //latex column name
-	public static double epsilon[];
+	public static double epsilon[][];
 	public static String problemFiles[];
 	
 	public static void setArrays(String subdir, int i) {
@@ -34,7 +39,7 @@ public class ExperimentECJ_PSO {
 		for (int j=0; j<i;j++) printrunID[j] = j+1;	
 	}
 	//  cols2.add(createXproblmTable(problemX[i],number_of_test_repetition,scenario_type,x,false));
-	private static ArrayList<String> createXproblmTable(String fileName, int number_of_repetition, int type, int myX, boolean print) {
+	private static ArrayList<String> createXproblmTable(String fileName, int number_of_repetition, int type, int myX, boolean print, double epsilon1[]) {
 		ArrayList<String> heads = new ArrayList<String>();
 		ArrayList<ArrayList<String>> cols = new ArrayList<ArrayList<String>>();
 		cols.add(PrintAMetrics.getInfoColumn());
@@ -50,7 +55,7 @@ public class ExperimentECJ_PSO {
 			problem2 = dir + fileName + id + ".stat";
 			System.out.println(problem2);
 			n = new Nodes();
-			n.createAll_ECJ(problem2, maxgeneration, epsilon);
+			n.createAll_ECJ(problem2, maxgeneration, epsilon1);
 			if (type==Nodes.SCENARIO_OPTIMISTIC) {
 				n.transformInOptimisticParetoTree();
 			}
@@ -74,7 +79,7 @@ public class ExperimentECJ_PSO {
 
 	}
 
-	private static void mutationMainTest(String problemX[], int x,int number_of_test_repetition){
+	private static void mutationMainTest(String problemX[], int x[],int number_of_test_repetition, double eps[][]){
 		ArrayList<ArrayList<String>> cols2 = new ArrayList<ArrayList<String>>();
 		cols2.add(PrintStatATMetrics.getDoubleInfoColumn());
 		ArrayList<String> heads = new ArrayList<String>();
@@ -83,10 +88,10 @@ public class ExperimentECJ_PSO {
 		for (int i=0; i<problemX.length; i++) {
 			System.out.println("Start: "+(i+1)+"/"+problemX.length);
 		  heads.add(""+problemX[i]); //Column name in latex table
-		  cols2.add(createXproblmTable(problemX[i],number_of_test_repetition,scenario_type,x,false));
+		  cols2.add(createXproblmTable(problemX[i],number_of_test_repetition,scenario_type,x[i],false, eps[i]));
 		  System.out.println(i+" ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problemX[i]);
 		}
-		System.out.println(PrintStatATMetrics.toLatex(heads, cols2,"EE test"));	
+		System.out.println(PrintStatATMetrics.toLatex(heads, cols2, function));	
 	}
 
 	/**
@@ -95,13 +100,24 @@ public class ExperimentECJ_PSO {
 	public static void main(String[] args) {
 		setArrays(dir, 1);
 		int problemDimension = 20;
-		epsilon = Util.generateEpsilonVector(problemDimension, 10); //for binary vector is any value less than 1 ok!
-		int number_of_test_repetition =9;
-		int x=5; //X dimension-s is/are changed by epsilon
-		problemFiles = new String[1];
+		epsilon = new double[4][];
+		epsilon[0] = Util.generateEpsilonVector(problemDimension, 1.44); //for binary vector is any value less than 1 ok!
+		epsilon[1] = Util.generateEpsilonVector(problemDimension, 1.44); //for binary vector is any value less than 1 ok!
+		epsilon[2] = Util.generateEpsilonVector(problemDimension, 1.44); //for binary vector is any value less than 1 ok!
+		epsilon[3] = Util.generateEpsilonVector(problemDimension, 1.44); //for binary vector is any value less than 1 ok!
+		
+		int number_of_test_repetition = 9;
+		int x[] = new int[4];
+		x[0] = 10; //X dimension-s is/are changed by epsilon
+		x[1] = 10; //X dimension-s is/are changed by epsilon
+		x[2] = 10; //X dimension-s is/are changed by epsilon
+		x[3] = 10; //X dimension-s is/are changed by epsilon
+		problemFiles = new String[3];
 		problemFiles[0] = problem_1;
-		//problemFiles[1] = problem_2;
-		mutationMainTest(problemFiles,x,number_of_test_repetition);
+		problemFiles[1] = problem_2;
+		problemFiles[2] = problem_3;
+		//problemFiles[3] = problem_4;
+		mutationMainTest(problemFiles, x,number_of_test_repetition, epsilon);
  
 
 	}

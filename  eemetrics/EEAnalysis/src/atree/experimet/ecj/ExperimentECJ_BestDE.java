@@ -10,11 +10,11 @@ import atree.treeData.Nodes;
 import atree.util.Util;
 
 
-public class ExperimentECJ_PSO {
+public class ExperimentECJ_BestDE {
 	//RastriginEEstatPSO_a1.stat
 	//SpherePSOOut_a1.STAT
-	public static String dir = "test_cases/ecj/pso/"; // on mac linux "/"
-	public static String problem_1 = "SchwefeEEstat_a";
+	public static String dir = "test_cases/ecj/de/"; // on mac linux "/"
+	public static String problem_1 = "SchwefelEEstat_a";
 	//public static String problem_2 = "SphereEEstatPSO_a";
 	public static String analiza = "a";
 
@@ -86,7 +86,7 @@ public class ExperimentECJ_PSO {
 		  cols2.add(createXproblmTable(problemX[i],number_of_test_repetition,scenario_type,x,false));
 		  System.out.println(i+" ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problemX[i]);
 		}
-		System.out.println(PrintStatATMetrics.toLatex(heads, cols2,"EE test"));	
+		System.out.println(PrintStatATMetrics.toLatex(heads, cols2, problemX[0]));	
 	}
 
 	/**
@@ -95,12 +95,12 @@ public class ExperimentECJ_PSO {
 	public static void main(String[] args) {
 		setArrays(dir, 1);
 		int problemDimension = 20;
-		epsilon = Util.generateEpsilonVector(problemDimension, 10); //for binary vector is any value less than 1 ok!
-		int number_of_test_repetition =9;
-		int x=5; //X dimension-s is/are changed by epsilon
+		epsilon = Util.generateEpsilonVector(problemDimension, 350.2); //for binary vector is any value less than 1 ok!
+		int number_of_test_repetition = 9;
+		int x = 2; //X dimension-s is/are changed by epsilon
 		problemFiles = new String[1];
 		problemFiles[0] = problem_1;
-		//problemFiles[1] = problem_2;
+	//	problemFiles[1] = problem_2;
 		mutationMainTest(problemFiles,x,number_of_test_repetition);
  
 
