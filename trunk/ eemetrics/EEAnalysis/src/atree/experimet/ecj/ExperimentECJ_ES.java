@@ -10,12 +10,15 @@ import atree.treeData.Nodes;
 import atree.util.Util;
 
 
-public class ExperimentECJ_PSO {
+public class ExperimentECJ_ES {
 	//RastriginEEstatPSO_a1.stat
 	//SpherePSOOut_a1.STAT
-	public static String dir = "test_cases/ecj/pso/"; // on mac linux "/"
-	public static String problem_1 = "SchwefeEEstat_a";
-	//public static String problem_2 = "SphereEEstatPSO_a";
+	public static String pripona = "PSO";
+	public static String dir = "D:\\My Documents\\fax\\Doktorat\\Workplace\\ecj\\ec\\EEstat\\samples\\"+pripona+"/"; // on mac linux "/"
+	public static String function = "Rosenbrock";
+	public static String problem_1 = function + pripona + "EEStat" + "_a";
+	public static String problem_2 = function + pripona + "EEStat" + "_b";
+	public static String problem_3 = function + pripona + "EEStat" + "_c";
 	public static String analiza = "a";
 
 
@@ -86,7 +89,7 @@ public class ExperimentECJ_PSO {
 		  cols2.add(createXproblmTable(problemX[i],number_of_test_repetition,scenario_type,x,false));
 		  System.out.println(i+" ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problemX[i]);
 		}
-		System.out.println(PrintStatATMetrics.toLatex(heads, cols2,"EE test"));	
+		System.out.println(PrintStatATMetrics.toLatex(heads, cols2, pripona+function));	
 	}
 
 	/**
@@ -95,12 +98,13 @@ public class ExperimentECJ_PSO {
 	public static void main(String[] args) {
 		setArrays(dir, 1);
 		int problemDimension = 20;
-		epsilon = Util.generateEpsilonVector(problemDimension, 10); //for binary vector is any value less than 1 ok!
-		int number_of_test_repetition =9;
-		int x=5; //X dimension-s is/are changed by epsilon
-		problemFiles = new String[1];
+		epsilon = Util.generateEpsilonVector(problemDimension, 1.44); //for binary vector is any value less than 1 ok!
+		int number_of_test_repetition = 9;
+		int x=10; //X dimension-s is/are changed by epsilon
+		problemFiles = new String[3];
 		problemFiles[0] = problem_1;
-		//problemFiles[1] = problem_2;
+		problemFiles[1] = problem_2;
+		problemFiles[2] = problem_3;
 		mutationMainTest(problemFiles,x,number_of_test_repetition);
  
 
