@@ -17,7 +17,7 @@ public class ExperimentECJ_BFA {
 	public static String dir = "D:\\My Documents\\fax\\Doktorat\\Workplace\\ecj\\ec\\EEstat\\samples\\"+pripona+"/"; // on mac linux "/"
 	public static String function = "Sphere";
 	//public static String problem_1 = function + pripona + "EEStat" + "_a";
-	public static String problem_2 = function + pripona + "EEStat" + "_b";
+	public static String problem_2 = function + pripona + "ElimEEStat";
 	//public static String problem_3 = function + pripona + "EEStat" + "_c";
 	public static String analiza = "a";
 
@@ -97,10 +97,11 @@ public class ExperimentECJ_BFA {
 	 */
 	public static void main(String[] args) {
 		setArrays(dir, 1);
-		int problemDimension = 20;
-		epsilon = Util.generateEpsilonVector(problemDimension, 1.44); //for binary vector is any value less than 1 ok!
+		int problemDimension = 6;
+		// epsilon = Util.generateEpsilonVector(problemDimension, 1.44); //for binary vector is any value less than 1 ok! Rosenbrock
+		epsilon = Util.generateEpsilonVector(problemDimension, 0.73); //for binary vector is any value less than 1 ok! Sphere
 		int number_of_test_repetition = 9;
-		int x=10; //X dimension-s is/are changed by epsilon
+		int x=3; //X dimension-s is/are changed by epsilon
 		problemFiles = new String[1];
 		problemFiles[0] = problem_2;
 	//	problemFiles[1] = problem_2;
