@@ -266,4 +266,50 @@ public class Nodes {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * ECJ format
+	 * Generation: 0
+	 * p1(-1,-1) p2(-1,-1) id(0,0) in( 1 1 0 0 0 1 0 0 0 0) c0 m0 r0
+	 * p1(-1,-1) p2(-1,-1) id(1,0) in( 1 0 0 0 1 0 1 1 1 1) c0 m0 r0
+	 * 
+	 * Calculates the EE statistics with sum of diff on dimensions
+	 *  
+	 * @param file
+	 * @param maxgen
+	 * @param useMaxGen calculate statistic for only first maxgen
+	 */
+	public void createAll_ECJ(String file, int maxgen, double epsilon, boolean useMaxGen) 
+	{
+		FileReader fr;
+		int currGen=0;
+		try {
+			fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String s;
+			while(null != (s = br.readLine())) 
+			{
+				if (s.contains("Generation:"))
+				{
+					s=s.replaceFirst("Generation:", "");
+					currGen = Integer.parseInt(s.trim());
+					//System.out.println("Generation:"+currGen);
+				}
+				
+				if (useMaxGen && (currGen > maxgen)) return;
+				
+				if (s.contains("id(")) { //new individual create node
+					put(Node.convert4String(s, this,epsilon));	
+				}
+				
+			}
+			fr.close();
+		} catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
 }

@@ -15,7 +15,7 @@ public class ExperimentECJ_compareSumm {
 	//SpherePSOOut_a1.STAT
 	public static String dir = "test_cases/ecj/compare/"; // on mac linux "/"
 //	public static String dir = "D:\\My Documents\\fax\\Doktorat\\Workplace\\ecj\\ec\\EEstat\\samples\\"+pripona+"/"; // on mac linux "/"
-	public static String function = "Schwefel";
+	public static String function = "Sphere";
 	public static String problem_1 = function + "BestDE" + "EEStat" + "_b";
 	public static String problem_2 = function + "PSO" + "EEStat" + "_b";
 	public static String problem_3 = function + "ES" + "EEStat" + "_b";
@@ -26,7 +26,7 @@ public class ExperimentECJ_compareSumm {
 	public static String[] mixrun;
 	public static int[] mixrunID;
 	public static int[] printrunID; //latex column name
-	public static double epsilon[][];
+	public static double epsilon;
 	public static String problemFiles[];
 	
 	public static void setArrays(String subdir, int i) {
@@ -38,7 +38,7 @@ public class ExperimentECJ_compareSumm {
 		for (int j=0; j<i;j++) printrunID[j] = j+1;	
 	}
 	//  cols2.add(createXproblmTable(problemX[i],number_of_test_repetition,scenario_type,x,false));
-	private static ArrayList<String> createXproblmTable(String fileName, int number_of_repetition, int type, int myX, boolean print, double epsilon1[]) {
+	private static ArrayList<String> createXproblmTable(String fileName, int number_of_repetition, int type, double myX, boolean print, double epsilon1) {
 		ArrayList<String> heads = new ArrayList<String>();
 		ArrayList<ArrayList<String>> cols = new ArrayList<ArrayList<String>>();
 		cols.add(PrintAMetrics.getInfoColumn());
@@ -87,7 +87,7 @@ public class ExperimentECJ_compareSumm {
 
 	}
 
-	private static void mutationMainTest(String problemX[], int x[],int number_of_test_repetition, double eps[][])
+	private static void mutationMainTest(String problemX[], double x[],int number_of_test_repetition, double eps)
 	{
 		ArrayList<ArrayList<String>> cols2 = new ArrayList<ArrayList<String>>();
 		cols2.add(PrintStatATMetrics.getDoubleInfoColumn());
@@ -99,7 +99,7 @@ public class ExperimentECJ_compareSumm {
 		{
 		  System.out.println("Start: "+(i+1)+"/"+problemX.length);
 		  heads.add(""+problemX[i]); //Column name in latex table
-		  cols2.add(createXproblmTable(problemX[i],number_of_test_repetition,scenario_type,x[i],false, eps[i]));
+		  cols2.add(createXproblmTable(problemX[i],number_of_test_repetition,scenario_type,x[i],false, eps));
 		  System.out.println(i+" ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problemX[i]);
 		}
 		System.out.println(PrintStatATMetrics.toLatex(heads, cols2, function));	
@@ -112,22 +112,18 @@ public class ExperimentECJ_compareSumm {
 	{
 		setArrays(dir, 1);
 		int problemDimension = 20;
-		double epsRosen = 1.44;
-		double epsRas = 0.33;
-		double epsSphere = 0.73;
-		double epsSchw = 23;
-		epsilon = new double[4][];
-		epsilon[0] = Util.generateEpsilonVector(problemDimension, epsSchw); //for binary vector is any value less than 1 ok!
-		epsilon[1] = Util.generateEpsilonVector(problemDimension, epsSchw); //for binary vector is any value less than 1 ok!
-		epsilon[2] = Util.generateEpsilonVector(problemDimension, epsSchw); //for binary vector is any value less than 1 ok!
-		epsilon[3] = Util.generateEpsilonVector(problemDimension, epsSchw); //for binary vector is any value less than 1 ok!
+		double epsRosen = 15;
+		double epsRas = 10.24;
+		double epsSphere = 10.24;
+		double epsSchw = 1000;
+		epsilon = (problemDimension * epsSphere) * 0.01; //for binary vector is any value less than 1 ok!
 		
 		int number_of_test_repetition = 20;
-		int x[] = new int[4];
-		x[0] = 1; //X dimension-s is/are changed by epsilon
-		x[1] = 1; //X dimension-s is/are changed by epsilon
-		x[2] = 1; //X dimension-s is/are changed by epsilon
-		x[3] = 1; //X dimension-s is/are changed by epsilon
+		double x[] = new double[4];
+		x[0] = epsilon; //X dimension-s is/are changed by epsilon
+		x[1] = epsilon; //X dimension-s is/are changed by epsilon
+		x[2] = epsilon; //X dimension-s is/are changed by epsilon
+		x[3] = epsilon; //X dimension-s is/are changed by epsilon
 		problemFiles = new String[3];
 		problemFiles[0] = problem_1;
 		problemFiles[1] = problem_2;
