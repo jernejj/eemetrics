@@ -10,6 +10,7 @@ public class LineParserECJ {
 	public static final int CROSS=5;
 	public static final int MUTAT=6;
 	public static final int REPAIR=7;
+	public static final int FITNESS=8;
 	
 	private String line;
 	private String value;
@@ -103,7 +104,7 @@ public class LineParserECJ {
 		 case IN: 
 		 case CROSS:
 		 case MUTAT:
-		 case REPAIR: 
+		 case REPAIR:
 				for (; pos<len; pos++) {
 					if (line.charAt(pos)=='c') {
 						state= CROSS;
