@@ -236,8 +236,9 @@ public class Nodes {
 	 *  
 	 * @param file
 	 * @param maxgen
+	 * @param useMaxGen calculate statistic for only first maxgen
 	 */
-	public void createAll_ECJ(String file, int maxgen, double epsilon[]) {
+	public void createAll_ECJ(String file, int maxgen, double epsilon[], boolean useMaxGen) {
 		FileReader fr;
 		int currGen=0;
 		try {
@@ -250,7 +251,7 @@ public class Nodes {
 					currGen = Integer.parseInt(s.trim());
 					//System.out.println("Generation:"+currGen);
 				}
-				if (currGen>maxgen) return;
+				if (useMaxGen && (currGen > maxgen)) return;
 				if (s.contains("id(")) { //new individual create node
 					put(Node.convert4String(s, this,epsilon));	
 				}
