@@ -17,7 +17,7 @@ public class PrintStatATMetrics {
 	
 	public static String toLatex(ArrayList<String> heads, ArrayList<ArrayList<String>> cols, String tableCaption) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("\\begin{table}[H]\n");
+		sb.append("\\begin{table}[!hpb]\n");
 		sb.append("\\begin{center}\n");
 		sb.append("\\begin{tabular}{@{}l@{\\hspace{1pt}}||@{\\hspace{1pt}}");
 		for (int i=0;i<heads.size();i++) {

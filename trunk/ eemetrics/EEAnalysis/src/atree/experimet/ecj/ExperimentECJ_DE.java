@@ -55,7 +55,7 @@ public class ExperimentECJ_DE {
 			problem2 = dir + fileName + id + ".stat";
 			System.out.println(problem2);
 			n = new Nodes();
-			n.createAll_ECJ(problem2, maxgeneration, epsilon1);
+			n.createAll_ECJ(problem2, maxgeneration, epsilon1, false);
 			if (type==Nodes.SCENARIO_OPTIMISTIC) {
 				n.transformInOptimisticParetoTree();
 			}

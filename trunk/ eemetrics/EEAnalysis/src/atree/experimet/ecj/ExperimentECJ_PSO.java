@@ -50,7 +50,7 @@ public class ExperimentECJ_PSO {
 			problem2 = dir + fileName + id + ".stat";
 			System.out.println(problem2);
 			n = new Nodes();
-			n.createAll_ECJ(problem2, maxgeneration, epsilon);
+			n.createAll_ECJ(problem2, maxgeneration, epsilon, false);
 			if (type==Nodes.SCENARIO_OPTIMISTIC) {
 				n.transformInOptimisticParetoTree();
 			}
