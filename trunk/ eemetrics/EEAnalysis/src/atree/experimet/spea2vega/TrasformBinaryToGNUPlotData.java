@@ -1,4 +1,4 @@
-package atree.experimet;
+package atree.experimet.spea2vega;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ import atree.util.GrayMetrics;
 public class TrasformBinaryToGNUPlotData {
 	public static String rootPath="/Users/matej/Documents/clanki2010/IEEETec/ResultData/2_18/";
 
-	public static void allPossible() throws IOException{
+/*	public static void allPossible() throws IOException{
 		GrayMetrics gm = new GrayMetrics(18);
 		BufferedReader br=new BufferedReader(new FileReader(rootPath+"/AllPossible.txt"));
 		//preberem prvo vrstico
@@ -33,7 +33,7 @@ public class TrasformBinaryToGNUPlotData {
 		
 	
 	}
-	
+	*/
 	public static void allPossiblePareto1() throws IOException{
 		GrayMetrics gm = new GrayMetrics(18);
 		BufferedReader br=new BufferedReader(new FileReader(rootPath+"/ParetoBitValues.txt"));
@@ -43,7 +43,9 @@ public class TrasformBinaryToGNUPlotData {
 	    Node n;
 		while(vrstica != null)
     	{
-			n=new Node(0,0,vrstica.trim(),false,false, false,0);
+			//n=new Node(0,0,vrstica.trim(),false,false, false,0);
+			n=new Node();
+			n.setChromo(vrstica.trim());
 			vrstica=br.readLine();
 			gm.add(n);
     	}
