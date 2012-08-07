@@ -1,4 +1,4 @@
-package atree.experimet;
+package atree.experimet.spea2vega;
 
 import java.util.ArrayList;
 
@@ -10,11 +10,8 @@ import atree.treeData.Node;
 import atree.treeData.Nodes;
 
 
-public class ExperimentIEEERunMetrics {
-	public static String dir = "/Users/matej/Documents/clanki2010/IEEETec/ResultData/"; // on
-	// mac
-	public static String problem10 = "knapsack_10_2";
-	public static String problem100 = "knapsack_100_2";
+public class ExperimentIEEESmall {
+	public static String dir = "/Users/matej/testdata/"; // on// mac
 	public static String problem18 = "knapsack_18_2";
 	public static String analiza = "Analiza";
 	public static String front = "NajdenaFronta";
@@ -257,7 +254,7 @@ public class ExperimentIEEERunMetrics {
 
 	}
 
-	public static void allScenariosForFirst10(){
+	public static void allScenariosForFirst10(String problem){
 		ArrayList<ArrayList<String>> cols2 = new ArrayList<ArrayList<String>>();
 		cols2.add(PrintStatATMetrics.getInfoColumn());
 		ArrayList<String> heads = new ArrayList<String>();
@@ -265,23 +262,23 @@ public class ExperimentIEEERunMetrics {
 		//createOverGenerationTable();
 		//createOverMuatationTestTable();
 		heads.add("$VEGA^{(opt)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,1,4,true));
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,1,4,true));
 		heads.add("$SPEA2^{(opt)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,1,4,true));		
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,1,4,true));		
 		
 		heads.add("$VEGA^{(sem)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,2,4,true));
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,2,4,true));
 		heads.add("$SPEA2^{(sem)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,2,4,true));		
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,2,4,true));		
 		
 		heads.add("$VEGA^{(all)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,3,4,true));
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,3,4,true));
 		heads.add("$SPEA2^{(all)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,3,4,true));
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$ (10 runs), $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=250$, $g=290$",1,10,3,4,true));
 		System.out.println(PrintStatATMetrics.toLatex(heads, cols2,"Statistic for (X=10)"));
 		
 	}
-	public static void mutationTestFirst30(){
+	public static void mutationTestFirst30(String problem){
 		System.out.println("Start mutationTestFirst30()");
 		ArrayList<ArrayList<String>> cols2 = new ArrayList<ArrayList<String>>();
 		cols2.add(PrintStatATMetrics.getInfoColumn());
@@ -290,45 +287,45 @@ public class ExperimentIEEERunMetrics {
 		//createOverGenerationTable();
 		//createOverMuatationTestTable();
 		heads.add("$VEGA^{(0.005\\%)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.005$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",1,30,3,4,false));
-		System.out.println("1 ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problem100+" ");
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.005$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",1,30,3,4,false));
+		System.out.println("1 ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problem+" ");
 
 		heads.add("$SPEA2^{(0.005\\%)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.005$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",1,30,3,4,false));		
-		System.out.println("2 ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problem100+" ");
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.005$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",1,30,3,4,false));		
+		System.out.println("2 ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problem+" ");
 		
 		heads.add("$VEGA^{(0.0075\\%)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.0075$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",31,30,3,4,false));
-		System.out.println("3 ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problem100+" ");
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.0075$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",31,30,3,4,false));
+		System.out.println("3 ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problem+" ");
 
 		heads.add("$SPEA2^{(0.0075\\%)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.0075$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",31,30,3,4,false));		
-		System.out.println("4 ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problem100+" ");
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.0075$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",31,30,3,4,false));		
+		System.out.println("4 ("+((double)(System.currentTimeMillis()-start)/1000/60)+")"+problem+" ");
 
 		heads.add("$VEGA^{(0.01\\%)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",61,30,3,4,false));
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",61,30,3,4,false));
 		heads.add("$SPEA2^{(0.01\\%)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",61,30,3,4,false));		
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.01$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",61,30,3,4,false));		
 
 		heads.add("$VEGA^{(0.0125\\%)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.0125$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",91,30,3,4,false));
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.0125$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",91,30,3,4,false));
 		heads.add("$SPEA2^{(0.0125\\%)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.0125$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",91,30,3,4,false));		
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.0125$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",91,30,3,4,false));		
 
 		heads.add("$VEGA^{(0.015\\%)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.015$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",91,30,3,4,false));
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.015$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",91,30,3,4,false));
 		heads.add("$SPEA2^{(0.015\\%)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.015$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",91,30,3,4,false));		
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.015$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",91,30,3,4,false));		
 
 		heads.add("$VEGA^{(0.0175\\%)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.0175$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",121,30,3,4,false));
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.0175$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",121,30,3,4,false));
 		heads.add("$SPEA2^{(0.0175\\%)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.0175$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",121,30,3,4,false));		
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.0175$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",121,30,3,4,false));		
 
 		heads.add("$VEGA^{(0.02\\%)}$");
-		cols2.add(createXproblmTable(problem100, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.02$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",151,30,3,4,false));
+		cols2.add(createXproblmTable(problem, "vega/","Analyse of VEGA for $x=4$, $p\\_m=0.02$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",151,30,3,4,false));
 		heads.add("$SPEA2^{(0.02\\%)}$");
-		cols2.add(createXproblmTable(problem100, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.02$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",151,30,3,4,false));		
+		cols2.add(createXproblmTable(problem, "spea2/","Analyse of SPEA2 for $x=4$, $p\\_m=0.02$, $p\\_c=0.8$, $pop\\_size=200$, $g=250$",151,30,3,4,false));		
 
 		System.out.println(PrintStatATMetrics.toLatex(heads, cols2,"Statistic (n=30) $p\\_m$=\\{0.5\\%, 0.75\\%, 1\\%, 1.25\\%, 1.75\\%, 2\\%\\}"));
 		
@@ -354,25 +351,25 @@ public class ExperimentIEEERunMetrics {
 	 */
 	public static void main(String[] args) {
 		//Scenario 100
-		//mutationTestFirst30(); //dont use it
-		mutationMainTest(ExperimentIEEEmetricC.mixrun, ExperimentIEEEmetricC.mixrunID, ExperimentIEEEmetricC.printrunID,problem100,4);
+		//mutationTestFirst30(); 
+		//mutationMainTest(ExperimentIEEEmetricC.mixrun, ExperimentIEEEmetricC.mixrunID, ExperimentIEEEmetricC.printrunID,problem100,4);
 
 		//setArrays(ExperimentIEEEmetricC.resultsvega, 9, 0);
 		//mutationMainTest(mixrun, mixrunID, printrunID, problem100,4);
 
 		//setArrays(ExperimentIEEEmetricC.resultsspea2, 9, 9);
-		//mutationMainTest(mixrun, mixrunID, printrunID, problem100,4);
+		//mutationMainTest(mixrun, mixrunID, printrunID, problem10,4);
 
 		//setArrays(ExperimentIEEEmetricC.resultsvega, 9, 0);
 		//mutationMainTest(mixrun, mixrunID, printrunID);
 
 		
 		//Scenario 18
-		//setArrays("2_18/"+ExperimentIEEEmetricC.resultsspea2, 9, 9);
-		//mutationMainTest(mixrun, mixrunID, printrunID, problem18,3);
+		setArrays("2_18/"+ExperimentIEEEmetricC.resultsspea2, 9, 9);
+		mutationMainTest(mixrun, mixrunID, printrunID, problem18,3);
 
-		//setArrays("2_18/"+ExperimentIEEEmetricC.resultsvega, 9, 0);
-		//mutationMainTest(mixrun, mixrunID, printrunID, problem18,3);
+		setArrays("2_18/"+ExperimentIEEEmetricC.resultsvega, 9, 0);
+		mutationMainTest(mixrun, mixrunID, printrunID, problem18,3);
 
 	}
 

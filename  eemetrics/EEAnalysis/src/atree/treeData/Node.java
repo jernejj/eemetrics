@@ -5,18 +5,31 @@ import java.util.ArrayList;
 import atree.util.LineParserECJ;
 
 public class Node implements Comparable<Node> {
-	private Node parent;
-	private ArrayList<Node> childrens;
+	private Node parent; //dominant parent
+	private ArrayList<Node> parents; //All parents DE can have 4 different parents etc...
+	private ArrayList<Node> childrens; //dominant children
 	private long revisits;
 	private long idGen;
 	private long idInPop;
-	public String chromo; //just for fast compare!!!
+	public String chromo; //not just for fast compare!!!
+	public String fitness;
+	public String getFitness() {
+		return fitness;
+	}
+	public void setFitness(String fitness) {
+		this.fitness = fitness;
+	}
+	@Deprecated
 	public int ones1, ones2, ones3; //just for comparing speed
 	private boolean m; 
 	private boolean c; 
 	private boolean r;
 	private boolean pareto;
 	private boolean revisited;
+	private boolean exploreRootSubTree;
+	public ArrayList<Node> getParents() {
+		return parents;
+	}
 	public boolean isRevisited() {
 		return revisited;
 	}
@@ -33,14 +46,21 @@ public class Node implements Comparable<Node> {
 	private boolean tmp;
 
 	private double x;
-
+	
+	public void addParent(Node p) {
+		if (p!=null) {
+			parents.add(p);
+		}
+	}
 	public Node() {
 		super();
+		parents = new ArrayList<Node>(); 
 		childrens = new ArrayList<Node>();
 		revisits = 0;
 		parent = null;
 		pareto = false;
 		tmp=false;
+		setExploreRootSubTree(true);
 	}
 	public void addRevisited()  {
 		revisits++;
@@ -51,7 +71,7 @@ public class Node implements Comparable<Node> {
 	public void setPareto(boolean pareto) {
 		this.pareto = pareto;
 	}
-	public Node(long idGen, long idInPop, String chromo, boolean m, boolean c,
+	/*public Node(long idGen, long idInPop, String chromo, boolean m, boolean c,
 			boolean r, long x) {
 		this();
 		this.idGen = idGen;
@@ -61,7 +81,7 @@ public class Node implements Comparable<Node> {
 		this.r = r;
 		this.x = x;
 		setChromo(chromo);
-	}
+	}*/
 
 
 	public Node getParent() {
@@ -73,7 +93,7 @@ public class Node implements Comparable<Node> {
 	public void setParent(Node parent) {
 		this.parent = parent;
 		if (parent!=null)
-		parent.addChild(this);
+		  parent.addChild(this);
 	}
 
 	public ArrayList<Node> getChildrens() {
@@ -179,7 +199,7 @@ public class Node implements Comparable<Node> {
 		return sb.toString();
 	}
 	public String toString() {
-		String t=getID()+" "+getID(parent)+" "+getChromo()+" "+getCMR()+" "+getX()+" "+printChildrens()+" "+isPareto()+" "+isTmp();
+		String t=getID()+" Exp:"+isExploreRootSubTree()+" "+getID(parent)+" "+getChromo()+" "+getCMR()+" "+getX()+" "+printChildrens()+" "+isPareto()+" "+isTmp();
 		return t;
 	}
 	
@@ -351,6 +371,20 @@ public class Node implements Comparable<Node> {
 		}
 		if (diff>epsilon) x = diff;
 		return x;
+	}
+	public void clearTreeData() {
+		parent = null;
+		childrens.clear();
+		revisits = 0;
+		revisited = false;
+		setExploreRootSubTree(true);
+		
+	}
+	public boolean isExploreRootSubTree() {
+		return exploreRootSubTree;
+	}
+	public void setExploreRootSubTree(boolean subTreeRoot) {
+		this.exploreRootSubTree = subTreeRoot;
 	}
 	
 }

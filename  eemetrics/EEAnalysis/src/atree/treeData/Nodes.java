@@ -7,18 +7,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import atree.util.LogFileLineParser;
+
 public class Nodes {
 	private Hashtable<String, Node> ht;
 	private ArrayList<Node> initTrees;
 	private ArrayList<Node> paretoList;
+	private ArrayList<Node> allNodes;
 	public static final int SCENARIO_NORMAL = 0;
 	public static final int SCENARIO_OPTIMISTIC = 1;
 	public static final int SCENARIO_SEMI_OPTIMISTIC = 2;
-	public Hashtable<String, Node> getAllNodes() {
+	public Hashtable<String, Node> getAllNodesHashTable() {
+		return ht;
+	}
+	public Hashtable<String, Node> getAllNodes1() {
 		return ht;
 	}
 	public boolean containsKey(Object key) {
 		return ht.containsKey(key);
+	}
+	public ArrayList<Node> getAllNodes() {
+		return allNodes;
 	}
 
 	public ArrayList<Node> getInitTrees() {
@@ -28,6 +37,7 @@ public class Nodes {
 	public Node put(Node value) {
 		if (value.getParent() == null)
 			initTrees.add(value);
+		allNodes.add(value);
 		return ht.put(value.getID(), value);
 	}
 
@@ -49,6 +59,7 @@ public class Nodes {
 		ht = new Hashtable<String, Node>();
 		initTrees = new ArrayList<Node>();
 		paretoList = new ArrayList<Node>();
+		allNodes = new ArrayList<Node>();
 	}
 
 	public void createAllBarbara(String file) {
@@ -311,5 +322,39 @@ public class Nodes {
 		{
 			e.printStackTrace();
 		}
+	}
+	public void createAllFromRealVector(String file, int maxgen) {
+		FileReader fr;
+		int currGen=0;
+		try {
+			fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String s;
+			LogFileLineParser parser = new LogFileLineParser();
+			while(null != (s = br.readLine())) 
+			{
+				if (s.contains("Generation:"))
+				{
+					s=s.replaceFirst("Generation:", "");
+					currGen = Integer.parseInt(s.trim());
+					System.out.println("Generation:"+currGen);
+					if ((currGen > maxgen)) return;
+				}
+				
+				
+				if (s.contains("id(")) { //new individual create node
+					put(parser.convertFromString(s, this));	
+				}
+				
+			}
+			fr.close();
+		} catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
 	}
 }

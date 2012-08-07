@@ -4,8 +4,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import atree.metrics.Util;
-
 
 public class MeanStDev {
 	public double mean, stdev;

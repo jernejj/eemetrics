@@ -1,4 +1,4 @@
-package atree.experimet;
+package atree.experimet.spea2vega;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -57,7 +57,7 @@ public class GenMetricsEEVisitFequencyData {
 		// heads.add("" + id);
 		m = new ATMetrics(n.getInitTrees(), 4);
 		// Collection<Node> list = n.getAllNodes().values();
-		for (Node node : n.getAllNodes().values()) {
+		for (Node node : n.getAllNodesHashTable().values()) {
 			gm.add(node);
 			System.out.println(node.getChromo());
 		}
@@ -100,7 +100,7 @@ public class GenMetricsEEVisitFequencyData {
 		// heads.add("" + id);
 		m = new ATMetrics(n.getInitTrees(), X);
 		// Collection<Node> list = n.getAllNodes().values();
-		for (Node node : n.getAllNodes().values()) {
+		for (Node node : n.getAllNodesHashTable().values()) {
 			if (node.getIdGen() <= gen) {
 				gm.add(node);
 				// System.out.println(node.getChromo());
@@ -146,7 +146,7 @@ public class GenMetricsEEVisitFequencyData {
 		// Collection<Node> list = n.getAllNodes().values();
 		int sumCountNodes=0;
 		int sumCountInNodes=0;
-		for (Node node : n.getAllNodes().values()) {
+		for (Node node : n.getAllNodesHashTable().values()) {
 			sumCountNodes++;
 			if (node.getIdGen() <= gen) {
 				gm.add(node);
@@ -224,7 +224,7 @@ public class GenMetricsEEVisitFequencyData {
 		// Collection<Node> list = n.getAllNodes().values();
 		int sumCountNodes=0;
 		int sumCountInNodes=0;
-		for (Node node : n.getAllNodes().values()) {
+		for (Node node : n.getAllNodesHashTable().values()) {
 			sumCountNodes++;
 			if (node.getIdGen() <= gen) {
 				gm.add(node);

@@ -15,4 +15,15 @@ public class Util {
 		 }
 		 return t;
 	}
+    public static double divide(double a, double b) {
+    	if (b==0) return 0;
+    	return a/b;
+    }
+	public static double euclidian( double[] x,  double[] y) {
+		double r=0;
+		for (int i=0; i<x.length; i++) {
+			r += (x[i]-y[i])*(x[i]-y[i]);
+		}
+		return Math.sqrt(r);
+	}
 }
