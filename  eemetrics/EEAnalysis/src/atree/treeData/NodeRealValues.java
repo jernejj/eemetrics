@@ -1,4 +1,7 @@
 package atree.treeData;
+
+import java.util.Arrays;
+
 /**
  * This class is used for real vector based individuals
  * 
@@ -12,6 +15,10 @@ public class NodeRealValues extends Node {
 	}
 	public double[] getXV() {
 		return xv;
+	}
+	
+	public void setChromo(double x[]) {
+		xv = Arrays.copyOf(x, x.length); //deep copy
 	}
 	@Override
 	public void setChromo(String chromo) {
