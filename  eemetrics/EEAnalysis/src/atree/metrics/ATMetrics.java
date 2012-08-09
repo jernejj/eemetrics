@@ -14,12 +14,13 @@ public class ATMetrics {
 	private ArrayList<Node> initTreesRootNodes;
 	private ArrayList<Node> splitTrees; // only tree root nodes
 	private ArrayList<Node> allNodes; 
-	@Deprecated private double x; 
+	@Deprecated private double x; //use criteria interfaces for this!
 	private long count;
 	private long differentSolutions;
 	private IDominantParentCriteria setDominantParentCriteria; //not preset value
 	private IEECriteria eeCriteria; //instead of x
 	private IRevisitedCriteria revisitedCriteria;
+	
 	public ATMetrics( ArrayList<Node> allNodes, IDominantParentCriteria setParent, IEECriteria c,IRevisitedCriteria r) {
 		super();
 		revisitedCriteria = r;
@@ -30,10 +31,21 @@ public class ATMetrics {
 		this.allNodes = allNodes;
 		count = allNodes.size();
 		differentSolutions=0;
-		setDominantParents();
+		setDominantParents(); //fills setDominantParents
 		fillRootLeafsAndCountCriteria();
 		setRevisitedAllCriteria();
-	
+	}
+	public String getLatexInfo() {
+		StringBuffer tmp=new StringBuffer();
+		tmp.append("\\begin{itemize}\n");
+		tmp.append("\\item Number of nodes=").append(count).append("\n");
+		tmp.append("\\item ").append(setDominantParentCriteria.getInfo()).append("\n");
+		tmp.append("\\item ").append(eeCriteria.getInfo()).append("\n");
+		tmp.append("\\item ").append(revisitedCriteria.getInfo()).append("\n");
+		tmp.append("\\end{itemize}\n");
+		return tmp.toString();
+		
+		
 	}
 	private void setDominantParents() {
 		for (int i=0; i<allNodes.size();i++) { //clear childrens, parents
@@ -63,6 +75,11 @@ public class ATMetrics {
 			public boolean isExplore(Node parent, Node child) {
 				return (child.getX()>=x);
 			}
+
+			@Override
+			public String getInfo() {
+				return "Explore is if x>"+x;
+			}
 		};
 	}
   
@@ -76,7 +93,7 @@ public class ATMetrics {
 				for (int j = i+1; j < allNodes.size(); j++) {
 					tmp2=allNodes.get(j);
 					if (revisitedCriteria.isRevisited(tmp, tmp2)) {
-							tmp.addRevisited(); //same solution!
+							//tmp.addRevisited(); //same solution!
 							tmp2.setRevisited(true);	
 					}
 				}

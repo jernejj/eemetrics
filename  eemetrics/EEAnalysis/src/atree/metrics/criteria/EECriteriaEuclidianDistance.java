@@ -17,6 +17,10 @@ public class EECriteriaEuclidianDistance implements IEECriteria {
 		if (Util.euclidian(p.getXV(), c.getXV())>maxDistance) return true; 
 		return false;
 	}
+	@Override
+	public String getInfo() {
+		return "explore if euclidian distance $>$"+maxDistance;
+	}
 	
 
 }

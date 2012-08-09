@@ -21,5 +21,10 @@ public class RevisitedCriteriaEuclidian implements IRevisitedCriteria {
 		}
 		return false;
 	}
+
+	@Override
+	public String getInfo() {
+		return "revisited if euclidian distance $<$"+maxDistance;
+	}
 	
 }

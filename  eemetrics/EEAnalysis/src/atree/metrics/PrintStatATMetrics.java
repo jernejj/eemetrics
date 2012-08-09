@@ -7,12 +7,18 @@ import java.util.ArrayList;
 public class PrintStatATMetrics {
 	StatATMetrics m;
 	NumberFormat formatter, stdFormat;
-
-	public PrintStatATMetrics(StatATMetrics m) {
+	public PrintStatATMetrics() {
 		super();
-		this.m = m;
 		formatter = new DecimalFormat("#0.000");
-		stdFormat = new DecimalFormat("#.00");
+		stdFormat = new DecimalFormat("#.00");		
+	}
+	public void setStatATMetrics(StatATMetrics m) {
+		this.m = m;
+	}
+	public PrintStatATMetrics(StatATMetrics m) {
+		this();
+		this.m = m;
+
 	}
 	
 	public static String toLatex(ArrayList<String> heads, ArrayList<ArrayList<String>> cols, String tableCaption) {

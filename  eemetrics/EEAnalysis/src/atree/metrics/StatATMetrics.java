@@ -131,6 +131,10 @@ public class StatATMetrics {
 		for (MetricsValues m:all) tmpLista.add(m.getNonRevisitedRatio());
 		return new MeanStDev(tmpLista);
 	}
+	public void clear() {
+		all.clear();
+		
+	}
 	
 	
 

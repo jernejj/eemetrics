@@ -6,8 +6,8 @@ import atree.util.LineParserECJ;
 
 public class Node implements Comparable<Node> {
 	private Node parent; //dominant parent
-	private ArrayList<Node> parents; //All parents DE can have 4 different parents etc...
-	private ArrayList<Node> childrens; //dominant children
+	private ArrayList<Node> childrens; //dominant children	private ArrayList<Node> parents; //All parents DE can have 4 different parents etc...
+	private ArrayList<Node> parents;
 	private long revisits;
 	private long idGen;
 	private long idInPop;
