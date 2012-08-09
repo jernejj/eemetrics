@@ -26,4 +26,12 @@ public class Util {
 		}
 		return Math.sqrt(r);
 	}
+	public static double euclidian_normalized( double[] x,  double[] y, double[] intervals) {
+		double r=0;
+		for (int i=0; i<x.length; i++) {
+			r += Math.abs(x[i]-y[i])/intervals[i];
+		}
+		return r/x.length;
+	}
+	
 }

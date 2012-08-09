@@ -32,5 +32,9 @@ public class DominantParentCriteriaEuclidianDistanceRealValues implements IDomin
 		}
 		
 	}
+	@Override
+	public String getInfo() {
+		return "Dominant parent is set by euclidian distance";
+	}
 
 }
