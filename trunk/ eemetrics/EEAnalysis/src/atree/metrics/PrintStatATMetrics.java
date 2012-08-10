@@ -6,11 +6,12 @@ import java.util.ArrayList;
 
 public class PrintStatATMetrics {
 	StatATMetrics m;
-	NumberFormat formatter, stdFormat;
+	NumberFormat formatter, stdFormat, precFormat;
 	public PrintStatATMetrics() {
 		super();
 		formatter = new DecimalFormat("#0.000");
-		stdFormat = new DecimalFormat("#.00");		
+		stdFormat = new DecimalFormat("#.00");	
+		precFormat= new DecimalFormat("#0.000000");
 	}
 	public void setStatATMetrics(StatATMetrics m) {
 		this.m = m;
@@ -115,6 +116,11 @@ public class PrintStatATMetrics {
 		data.add(m.getExploitSelectionPressure().toStringStDev());
 		data.add(m.getNonRevisitedRatio().toStringMean());
 		data.add(m.getNonRevisitedRatio().toStringStDev());
+		//
+		data.add(m.getMeanFitness().toStringMean());
+		data.add(m.getMeanFitness().toStringStDev());
+		data.add("{\\footnotesize $"+precFormat.format(m.getBestFitness())+"$}");
+		data.add("{\\footnotesize $"+precFormat.format(m.getWorstFitness())+"$}");
 		//data.add(""+(int)m.getCountAllNodes().getMean());
 		return data;
 		
@@ -179,7 +185,10 @@ public class PrintStatATMetrics {
 		data.add("");
 		data.add("{\\footnotesize$nonRevisitedRatio$"+"}");
 		data.add("");
-		//data.add("{\\footnotesize$countAllNodes$"+"}");
+		data.add("{\\footnotesize$fitness$"+"}");
+		data.add("");		//data.add("{\\footnotesize$countAllNodes$"+"}");
+		data.add("{\\footnotesize$bestFitness$"+"}");
+		data.add("{\\footnotesize$worstfitness$"+"}");
 		return data;		
 	}
 

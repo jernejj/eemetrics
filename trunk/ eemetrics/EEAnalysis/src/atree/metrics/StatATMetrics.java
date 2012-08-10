@@ -2,18 +2,48 @@ package atree.metrics;
 
 import java.util.ArrayList;
 
+import atree.treeData.CompareMinBest;
+import atree.treeData.ICompare;
+import atree.treeData.Node;
 import atree.util.MeanStDev;
 
 
 public class StatATMetrics {
 	ArrayList<MetricsValues> all;
 	ArrayList<Double> tmpLista;
+	ICompare compare;
+	
+	public void setCompare(ICompare compare) {
+		this.compare = compare;
+	}
 	public StatATMetrics() {
+		compare = new CompareMinBest(); 
 		tmpLista = new ArrayList<Double>();
 		all = new ArrayList<MetricsValues>();
 	}
 	public void add(ATMetrics m) {
 		all.add(new MetricsValues(m));
+	}
+	public MeanStDev getMeanFitness() {
+		tmpLista.clear();
+		for (MetricsValues m:all) tmpLista.add(m.getBest().getDoubleFitness()); //this can be something else
+		return new MeanStDev(tmpLista);
+	}
+	public double getBestFitness() {
+		tmpLista.clear();
+		Node best=null;
+		for (MetricsValues m:all) {
+			if (compare.isFirstBetter(m.getBest(), best)) best = m.getBest();
+		}
+		return best.getDoubleFitness();
+	}
+	public double getWorstFitness() {
+		tmpLista.clear();
+		Node worst=all.get(0).getBest();
+		for (MetricsValues m:all) {
+			if (compare.isFirstBetter(worst, m.getBest())) worst = m.getBest();
+		}
+		return worst.getDoubleFitness();
 	}
 	
 	public MeanStDev getExplorRatio() {

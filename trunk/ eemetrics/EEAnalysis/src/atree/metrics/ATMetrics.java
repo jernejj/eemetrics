@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import atree.metrics.criteria.IDominantParentCriteria;
 import atree.metrics.criteria.IEECriteria;
 import atree.metrics.criteria.IRevisitedCriteria;
+import atree.treeData.CompareMinBest;
+import atree.treeData.ICompare;
 import atree.treeData.Node;
 import atree.util.MeanStDev;
 import atree.util.Util;
@@ -20,9 +22,24 @@ public class ATMetrics {
 	private IDominantParentCriteria setDominantParentCriteria; //not preset value
 	private IEECriteria eeCriteria; //instead of x
 	private IRevisitedCriteria revisitedCriteria;
-	
+	private ICompare compare;
+	private Node best;
+	public ICompare getCompare() {
+		return compare;
+	}
+	public void setCompare(ICompare compare) {
+		this.compare = compare;
+	}
+	public Node getBest() {
+		return best;
+	}
+	public void setBest(Node best) {
+		this.best = best;
+	}
 	public ATMetrics( ArrayList<Node> allNodes, IDominantParentCriteria setParent, IEECriteria c,IRevisitedCriteria r) {
 		super();
+		best = null;
+		compare = new CompareMinBest();
 		revisitedCriteria = r;
 		this.setDominantParentCriteria = setParent;
 		eeCriteria = c;
@@ -34,6 +51,7 @@ public class ATMetrics {
 		setDominantParents(); //fills setDominantParents
 		fillRootLeafsAndCountCriteria();
 		setRevisitedAllCriteria();
+
 	}
 	public String getLatexInfo() {
 		StringBuffer tmp=new StringBuffer();
@@ -54,6 +72,7 @@ public class ATMetrics {
 		Node tmp;
 		for (int i=0; i<allNodes.size();i++) {
 			tmp = allNodes.get(i);
+			if (compare.isFirstBetter(tmp, best)) best = tmp; //sets best
 			setDominantParentCriteria.setDominantParent(tmp);
 			if (tmp.getParent()==null) initTreesRootNodes.add(tmp);
 		}
