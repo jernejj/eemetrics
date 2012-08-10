@@ -1,7 +1,6 @@
 package atree.metrics;
 
-import java.util.ArrayList;
-
+import atree.treeData.Node;
 import atree.util.MeanStDev;
 
 
@@ -23,7 +22,11 @@ public class MetricsValues {
 	private double exploitSelectionPressure;
 	private double countAllNodes;
 	private double nonRevisitedRatio;
+	private Node best;
 
+	public Node getBest() {
+		return best;
+	}
 	public double getExploreSelectionPressure() {
 		return exploreSelectionPressure;
 	}
@@ -92,6 +95,7 @@ public class MetricsValues {
 
 	public MetricsValues(ATMetrics m) {
 		super();
+		best = m.getBest();
 		this.explorRatio = m.explorRatio();
 		explorType_c = m.explorType(0);
 		explorType_m = m.explorType(1);

@@ -28,7 +28,7 @@ public class ExperimentSovova {
 		columsForSumTable.add(PrintStatATMetrics.getDoubleInfoColumn());
 		ArrayList<String> tableHeadsForSumTable = new ArrayList<String>();
 		String tmpSourceFileName;
-		final int MAX_RUNS = 30; //number of repeated
+		final int MAX_RUNS = 2; //number of repeated
 		String rootPath = "test_cases/realvector/de/sovova/";
 		/**
 		 * test_cases/realvector/de/sovova

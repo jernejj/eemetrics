@@ -337,7 +337,7 @@ public class Nodes {
 				{
 					s=s.replaceFirst("Generation:", "");
 					currGen = Integer.parseInt(s.trim());
-					System.out.println("Generation:"+currGen);
+					//System.out.println("Generation:"+currGen);
 					if ((currGen > maxgen)) return;
 				}
 				

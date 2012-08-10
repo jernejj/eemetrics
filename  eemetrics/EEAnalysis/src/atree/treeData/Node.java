@@ -16,6 +16,9 @@ public class Node implements Comparable<Node> {
 	public String getFitness() {
 		return fitness;
 	}
+	public double getDoubleFitness() {
+		return Double.parseDouble(fitness);
+	}
 	public void setFitness(String fitness) {
 		this.fitness = fitness;
 	}
