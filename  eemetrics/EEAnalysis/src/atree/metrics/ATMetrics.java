@@ -10,6 +10,7 @@ import atree.metrics.criteria.IRevisitedCriteria;
 import atree.treeData.CompareMinBest;
 import atree.treeData.ICompare;
 import atree.treeData.Node;
+import atree.treeData.Nodes;
 import atree.util.MeanStDev;
 import atree.util.Util;
 
@@ -103,29 +104,54 @@ public class ATMetrics {
 
 	}
 
-	private void clearExploreTreeData() {
+	private void clearExploreTreeData(ArrayList<Node> allNodes) {
 		for (int i = 0; i < allNodes.size(); i++) { // clear childrens, parents
 			allNodes.get(i).clearExploreTreeData();
 			;
 		}
 	}
 
-	private void clearNodesRevisitedData() {
+	private void clearNodesRevisitedData(ArrayList<Node> allNodes) {
 		for (int i = 0; i < allNodes.size(); i++) { // clear childrens, parents
 			allNodes.get(i).clearRevisited();
 		}
 	}
 
-	private void clearNodesDominant() {
-		for (int i = 0; i < allNodes.size(); i++) { // clear childrens, parents
-			allNodes.get(i).clearAllTreeData();
+	private void clearNodesDominant(ArrayList<Node> nodes) {
+		for (int i = 0; i < nodes.size(); i++) { // clear childrens, parents
+			nodes.get(i).clearAllTreeData();
 			;
 		}
 	}
 
+	/**
+	 * Input list must be prepared, in a way that all nodes have right
+	 * references This method uses constructor based Criteria interfaces.
+	 * 
+	 * @param list
+	 */
+	public void addGeneration(ArrayList<Node> list) {
+		setDominantParents(list);
+		clearNodesRevisitedData(list); // clear info
+		allNodes.addAll(list);
+		setRevisitedAllCriteriaApproximation(); //recalc new values
+		for (Node e:list) {
+			if (e.getParent()==null) { //root
+				splitTrees.add(e);
+				e.setExploreRootSubTree(true);
+			} else //check  
+				recursiveFillRootTopDownCriteria(e.getParent(),e);
+		}
+
+	}
+
 	public void setDominantParents(IDominantParentCriteria setParent) {
 		this.setDominantParentCriteria = setParent;
-		clearNodesDominant();
+		setDominantParents(allNodes);
+	}
+
+	private void setDominantParents(ArrayList<Node> allNodes) {
+		clearNodesDominant(allNodes);
 		Node tmp;
 		for (int i = 0; i < allNodes.size(); i++) {
 			tmp = allNodes.get(i);
@@ -162,65 +188,53 @@ public class ATMetrics {
 		};
 	}
 
-	public void setRevisitedAllCriteriaBrisi(IRevisitedCriteria r) {
+
+	public void setRevisitedAllCriteriaApproximation(IRevisitedCriteria r) {
 		revisitedCriteria = r;
-		clearNodesRevisitedData(); // clear info
+		clearNodesRevisitedData(allNodes); // clear info
+		setRevisitedAllCriteriaApproximation();
+	}
+
+	/**
+	 * Small approximation is done! If element is revisited is not compared with
+	 * others nodes! This approximation has property that real
+	 * differentSolutions is <= thisApproximation. Usually number is around 1%
+	 * or less.
+	 * 
+	 * @param r
+	 */
+	private void setRevisitedAllCriteriaApproximation() {
 		Node tmp, tmp2;
 		differentSolutions = 0;
+		Collections.sort(allNodes, new Comparator<Node>() {
+			@Override
+			public int compare(Node a, Node b) {
+				if (a.getDoubleFitness() < b.getDoubleFitness())
+					return -1;
+				if (a.getDoubleFitness() > b.getDoubleFitness())
+					return 1;
+				return 0;
+			}
+
+		});
 		for (int i = 0; i < allNodes.size(); i++) {
 			tmp = allNodes.get(i);
+			// System.out.println(tmp.getDoubleFitness());
 			if (!tmp.isRevisited()) {
 				differentSolutions++;
 				for (int j = i + 1; j < allNodes.size(); j++) {
 					tmp2 = allNodes.get(j);
-					if (revisitedCriteria.isRevisited(tmp, tmp2)) {
-						// tmp.addRevisited(); //same solution!
-						tmp2.setRevisited(true);
+					if (!tmp2.isRevisited()) {
+						if (revisitedCriteria.isRevisited(tmp, tmp2)) {
+							// tmp.addRevisited(); //same solution!
+							tmp2.setRevisited(true);
+						}
 					}
 				}
 			}
 		}
-
 	}
-	
-    /**
-     * Small approximation is done! If element is revisited is not compared with others nodes!
-     * This approximation has property that real differentSolutions is <= thisApproximation.
-     * Usually number is around 1% or less.  
-     * 
-     * @param r
-     */
-	public void setRevisitedAllCriteriaApproximation(IRevisitedCriteria r) {
-		revisitedCriteria = r;
-		clearNodesRevisitedData(); // clear info
-		Node tmp, tmp2;
-		differentSolutions = 0;
-		Collections.sort(allNodes, new Comparator<Node>(){
 
-			@Override
-			public int compare(Node a, Node b) {
-				if (a.getDoubleFitness()<b.getDoubleFitness()) return -1;
-				if (a.getDoubleFitness()>b.getDoubleFitness()) return 1;
-				return 0;
-			}
-
-			});
-		System.out.println("Sort end");
-		for (int i = 0; i < allNodes.size(); i++) {
-			tmp = allNodes.get(i);
-			//System.out.println(tmp.getDoubleFitness());
-			if (!tmp.isRevisited()) {
-				differentSolutions++;
-			
-			for (int j = i + 1; j < allNodes.size(); j++) {
-				tmp2 = allNodes.get(j);
-				if (revisitedCriteria.isRevisited(tmp, tmp2)) {
-					// tmp.addRevisited(); //same solution!
-					tmp2.setRevisited(true);
-				}
-			}
-		}}
-	}
 	/**
 	 * This version has no approximations!
 	 * 
@@ -228,7 +242,7 @@ public class ATMetrics {
 	 */
 	public void setRevisitedAllCriteria(IRevisitedCriteria r) {
 		revisitedCriteria = r;
-		clearNodesRevisitedData(); // clear info
+		clearNodesRevisitedData(allNodes); // clear info
 		Node tmp, tmp2;
 		differentSolutions = 0;
 		for (int i = 0; i < allNodes.size(); i++) {
@@ -296,7 +310,7 @@ public class ATMetrics {
 
 	public void calculateExplore(IEECriteria cr) {
 		eeCriteria = cr; // set new criteria
-		clearExploreTreeData();
+		clearExploreTreeData(allNodes);
 		splitTrees.clear(); // new
 		splitTrees.addAll(initTreesRootNodes);
 		if (splitTrees.size() == 0) {
@@ -304,7 +318,7 @@ public class ATMetrics {
 					.println("Did you call setDominantParents()? No initTreesRootNodes currently.");
 		}
 		for (Node n : initTreesRootNodes) {
-			//System.out.println("Explore1:"+n);
+			// System.out.println("Explore1:"+n);
 			n.setExploreRootSubTree(true);
 			for (Node e : n.getChildrens()) {
 				recursiveFillRootTopDownCriteria(n, e);
@@ -315,10 +329,10 @@ public class ATMetrics {
 	private void recursiveFillRootTopDownCriteria(Node p, Node e) {
 		if (eeCriteria.isExplore(p, e)) {
 			splitTrees.add(e);
-			//System.out.println("x");
+			// System.out.println("x");
 			e.setExploreRootSubTree(true);
 		} else {
-			//System.out.println("y");
+			// System.out.println("y");
 			e.setExploreRootSubTree(false);
 		}
 		for (Node n : e.getChildrens()) {
