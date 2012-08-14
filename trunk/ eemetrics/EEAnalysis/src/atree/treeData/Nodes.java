@@ -5,8 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
 
+import atree.metrics.criteria.IRevisitedCriteria;
 import atree.util.LogFileLineParser;
 
 public class Nodes {
@@ -17,15 +20,19 @@ public class Nodes {
 	public static final int SCENARIO_NORMAL = 0;
 	public static final int SCENARIO_OPTIMISTIC = 1;
 	public static final int SCENARIO_SEMI_OPTIMISTIC = 2;
+
 	public Hashtable<String, Node> getAllNodesHashTable() {
 		return ht;
 	}
+
 	public Hashtable<String, Node> getAllNodes1() {
 		return ht;
 	}
+
 	public boolean containsKey(Object key) {
 		return ht.containsKey(key);
 	}
+
 	public ArrayList<Node> getAllNodes() {
 		return allNodes;
 	}
@@ -144,7 +151,8 @@ public class Nodes {
 					s = s.replaceAll("\\(", "");
 					s = s.replaceAll("\\)", "");
 					stepOne = s.split(",");
-					String key = "(" + stepOne[1].trim() + "," + stepOne[0].trim() + ")";
+					String key = "(" + stepOne[1].trim() + ","
+							+ stepOne[0].trim() + ")";
 					Node n = ht.get(key);
 					if (n != null) {
 						n.setPareto(true);
@@ -163,60 +171,64 @@ public class Nodes {
 			e.printStackTrace();
 		}
 	}
+
 	/*
-	 * Only pareto parents and pareto inniduals survy 
+	 * Only pareto parents and pareto inniduals survy
 	 */
 	public void transformInOptimisticParetoTree() {
-		for (Node n:paretoList) { //set all relavant
-			while (n!=null) {
+		for (Node n : paretoList) { // set all relavant
+			while (n != null) {
 				n.setTmp(true);
-				n=n.getParent();
+				n = n.getParent();
 			}
 		}
-		//Remove from initTrees
-		for (int i=initTrees.size()-1;i>-1;i--) {
-			if (!initTrees.get(i).isTmp()) initTrees.remove(i);
+		// Remove from initTrees
+		for (int i = initTrees.size() - 1; i > -1; i--) {
+			if (!initTrees.get(i).isTmp())
+				initTrees.remove(i);
 		}
-		//Remove from tree
-		for (Node n:paretoList) { //set all relavant
-			while (n!=null) {
-				for (int j=n.getChildrens().size()-1;j>=0;j--) {
+		// Remove from tree
+		for (Node n : paretoList) { // set all relavant
+			while (n != null) {
+				for (int j = n.getChildrens().size() - 1; j >= 0; j--) {
 					if (!n.getChildrens().get(j).isTmp()) {
 						n.getChildrens().remove(j);
 					}
 				}
-				n=n.getParent();
+				n = n.getParent();
 			}
 		}
 	}
+
 	/*
-	 * Only pareto  
+	 * Only pareto
 	 */
 	public void transformInOptimisticPlusParetoTree() {
-		for (Node n:paretoList) { //set all relavant
-			while (n!=null) {
+		for (Node n : paretoList) { // set all relavant
+			while (n != null) {
 				n.setTmp(true);
-				n=n.getParent();
-				if (n!=null) {
-					for (Node nn:n.getChildrens()) {
+				n = n.getParent();
+				if (n != null) {
+					for (Node nn : n.getChildrens()) {
 						nn.setTmp(true);
 					}
 				}
 			}
 		}
-		//Remove from initTrees
-		for (int i=initTrees.size()-1;i>-1;i--) {
-			if (!initTrees.get(i).isTmp()) initTrees.remove(i);
+		// Remove from initTrees
+		for (int i = initTrees.size() - 1; i > -1; i--) {
+			if (!initTrees.get(i).isTmp())
+				initTrees.remove(i);
 		}
-		//Remove from tree
-		for (Node n:paretoList) { //set all relavant
-			while (n!=null) {
-				for (int j=n.getChildrens().size()-1;j>=0;j--) {
+		// Remove from tree
+		for (Node n : paretoList) { // set all relavant
+			while (n != null) {
+				for (int j = n.getChildrens().size() - 1; j >= 0; j--) {
 					if (!n.getChildrens().get(j).isTmp()) {
 						n.getChildrens().remove(j);
 					}
 				}
-				n=n.getParent();
+				n = n.getParent();
 			}
 		}
 	}
@@ -226,47 +238,50 @@ public class Nodes {
 	 * 
 	 * @param br
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	private String getNextLine(BufferedReader br) throws IOException {
-		boolean comment=false;
-		String s="";
-		while ((s=br.readLine()) != null) {
-			if (s.trim().length()==0) continue;
-			
+		boolean comment = false;
+		String s = "";
+		while ((s = br.readLine()) != null) {
+			if (s.trim().length() == 0)
+				continue;
+
 			break;
 		}
 		return s;
 	}
+
 	/**
-	 * ECJ format
-	 * Generation: 0
-	 * p1(-1,-1) p2(-1,-1) id(0,0) in( 1 1 0 0 0 1 0 0 0 0) c0 m0 r0
-	 * p1(-1,-1) p2(-1,-1) id(1,0) in( 1 0 0 0 1 0 1 1 1 1) c0 m0 r0
-	 * ...
-	 *  
+	 * ECJ format Generation: 0 p1(-1,-1) p2(-1,-1) id(0,0) in( 1 1 0 0 0 1 0 0
+	 * 0 0) c0 m0 r0 p1(-1,-1) p2(-1,-1) id(1,0) in( 1 0 0 0 1 0 1 1 1 1) c0 m0
+	 * r0 ...
+	 * 
 	 * @param file
 	 * @param maxgen
-	 * @param useMaxGen calculate statistic for only first maxgen
+	 * @param useMaxGen
+	 *            calculate statistic for only first maxgen
 	 */
-	public void createAll_ECJ(String file, int maxgen, double epsilon[], boolean useMaxGen) {
+	public void createAll_ECJ(String file, int maxgen, double epsilon[],
+			boolean useMaxGen) {
 		FileReader fr;
-		int currGen=0;
+		int currGen = 0;
 		try {
 			fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			String s;
-			while(null != (s = br.readLine())) {
+			while (null != (s = br.readLine())) {
 				if (s.contains("Generation:")) {
-					s=s.replaceFirst("Generation:", "");
+					s = s.replaceFirst("Generation:", "");
 					currGen = Integer.parseInt(s.trim());
-					//System.out.println("Generation:"+currGen);
+					// System.out.println("Generation:"+currGen);
 				}
-				if (useMaxGen && (currGen > maxgen)) return;
-				if (s.contains("id(")) { //new individual create node
-					put(Node.convert4String(s, this,epsilon));	
+				if (useMaxGen && (currGen > maxgen))
+					return;
+				if (s.contains("id(")) { // new individual create node
+					put(Node.convert4String(s, this, epsilon));
 				}
-				
+
 			}
 			fr.close();
 		} catch (FileNotFoundException e) {
@@ -277,84 +292,86 @@ public class Nodes {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * ECJ format
-	 * Generation: 0
-	 * p1(-1,-1) p2(-1,-1) id(0,0) in( 1 1 0 0 0 1 0 0 0 0) c0 m0 r0
-	 * p1(-1,-1) p2(-1,-1) id(1,0) in( 1 0 0 0 1 0 1 1 1 1) c0 m0 r0
+	 * ECJ format Generation: 0 p1(-1,-1) p2(-1,-1) id(0,0) in( 1 1 0 0 0 1 0 0
+	 * 0 0) c0 m0 r0 p1(-1,-1) p2(-1,-1) id(1,0) in( 1 0 0 0 1 0 1 1 1 1) c0 m0
+	 * r0
 	 * 
 	 * Calculates the EE statistics with sum of diff on dimensions
-	 *  
+	 * 
 	 * @param file
 	 * @param maxgen
-	 * @param useMaxGen calculate statistic for only first maxgen
+	 * @param useMaxGen
+	 *            calculate statistic for only first maxgen
 	 */
-	public void createAll_ECJ(String file, int maxgen, double epsilon, boolean useMaxGen) 
-	{
+	public void createAll_ECJ(String file, int maxgen, double epsilon,
+			boolean useMaxGen) {
 		FileReader fr;
-		int currGen=0;
+		int currGen = 0;
 		try {
 			fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			String s;
-			while(null != (s = br.readLine())) 
-			{
-				if (s.contains("Generation:"))
-				{
-					s=s.replaceFirst("Generation:", "");
+			while (null != (s = br.readLine())) {
+				if (s.contains("Generation:")) {
+					s = s.replaceFirst("Generation:", "");
 					currGen = Integer.parseInt(s.trim());
-					//System.out.println("Generation:"+currGen);
+					// System.out.println("Generation:"+currGen);
 				}
-				
-				if (useMaxGen && (currGen > maxgen)) return;
-				
-				if (s.contains("id(")) { //new individual create node
-					put(Node.convert4String(s, this,epsilon));	
+
+				if (useMaxGen && (currGen > maxgen))
+					return;
+
+				if (s.contains("id(")) { // new individual create node
+					put(Node.convert4String(s, this, epsilon));
 				}
-				
+
 			}
 			fr.close();
-		} catch (FileNotFoundException e) 
-		{
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) 
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 	public void createAllFromRealVector(String file, int maxgen) {
 		FileReader fr;
-		int currGen=0;
 		try {
 			fr = new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
-			String s;
-			LogFileLineParser parser = new LogFileLineParser();
-			while(null != (s = br.readLine())) 
-			{
-				if (s.contains("Generation:"))
-				{
-					s=s.replaceFirst("Generation:", "");
-					currGen = Integer.parseInt(s.trim());
-					//System.out.println("Generation:"+currGen);
-					if ((currGen > maxgen)) return;
-				}
-				
-				
-				if (s.contains("id(")) { //new individual create node
-					put(parser.convertFromString(s, this));	
-				}
-				
-			}
+			createAllFromRealVector(br, maxgen);
 			fr.close();
-		} catch (FileNotFoundException e) 
-		{
-			e.printStackTrace();
-		} catch (IOException e) 
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+	}
+
+	public void createAllFromRealVector(BufferedReader br, int maxgen) {
+		int currGen = 0;
+		try {
+			String s;
+			LogFileLineParser parser = new LogFileLineParser();
+			while (null != (s = br.readLine())) {
+				if (s.contains("Generation:")) {
+					s = s.replaceFirst("Generation:", "");
+					currGen = Integer.parseInt(s.trim());
+					// System.out.println("Generation:"+currGen);
+					if ((currGen > maxgen))
+						return;
+				}
+
+				if (s.contains("id(")) { // new individual create node
+					put(parser.convertFromString(s, this));
+				}
+
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

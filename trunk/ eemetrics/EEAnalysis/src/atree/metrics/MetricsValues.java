@@ -92,10 +92,11 @@ public class MetricsValues {
 	public double getCountAllNodes() {
 		return countAllNodes;
 	}
-
+	public MetricsValues() {
+		
+	}
 	public MetricsValues(ATMetrics m) {
-		super();
-		best = m.getBest();
+		best = m.getBest().cloneSimple();
 		this.explorRatio = m.explorRatio();
 		explorType_c = m.explorType(0);
 		explorType_m = m.explorType(1);

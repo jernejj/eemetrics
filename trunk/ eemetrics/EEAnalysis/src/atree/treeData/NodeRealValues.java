@@ -9,10 +9,13 @@ import java.util.Arrays;
  *
  */
 public class NodeRealValues extends Node {
-	private double xv[]; //x values
+	transient public double tmp; 
+public double xv[]; //x values
+	
 	public NodeRealValues() {
 		super();
 	}
+	
 	public double[] getXV() {
 		return xv;
 	}
@@ -21,12 +24,30 @@ public class NodeRealValues extends Node {
 		xv = Arrays.copyOf(x, x.length); //deep copy
 	}
 	@Override
+	public Node cloneSimple(){
+		NodeRealValues tmp = new NodeRealValues();
+		tmp.fitness = fitness;
+		tmp.dfitness = dfitness;
+		tmp.chromo = chromo;
+		tmp.m = m;
+		tmp.c = c;
+		tmp.r = r;
+		tmp.revisited = revisited;
+		tmp.exploreRootSubTree = exploreRootSubTree;
+		tmp.xv = Arrays.copyOf(xv, xv.length); //deep copy
+		return tmp;
+	}
+	@Override
 	public void setChromo(String chromo) {
-		this.chromo = chromo;
+		//this.chromo = chromo;
 		String[] c = chromo.split(" "); //space is delimeter
 		xv = new double[c.length];
 		for (int i=0; i<xv.length;i++) {
 			xv[i] = Double.parseDouble(c[i]);
 		}
+	}
+	@Override
+	public String getChromo() { 
+		return Arrays.toString(xv);
 	}
 }

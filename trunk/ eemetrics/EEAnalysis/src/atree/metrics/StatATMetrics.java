@@ -21,6 +21,9 @@ public class StatATMetrics {
 		tmpLista = new ArrayList<Double>();
 		all = new ArrayList<MetricsValues>();
 	}
+	public void add(MetricsValues m) {
+		all.add(m);
+	}
 	public void add(ATMetrics m) {
 		all.add(new MetricsValues(m));
 	}

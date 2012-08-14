@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class MeanStDev {
 	public double mean, stdev;
-	ArrayList<Double> lista;
+	transient ArrayList<Double> lista;
 	public static NumberFormat meanFormat=new DecimalFormat("#0.0000"), stdFormat=new DecimalFormat("#0.00");
 	public MeanStDev(ArrayList<Double> lista) {
 		super();
