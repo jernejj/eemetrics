@@ -13,23 +13,38 @@ public class Node implements Comparable<Node> {
 	private long idInPop;
 	public String chromo; //not just for fast compare!!!
 	public String fitness;
+	public double dfitness;
 	public String getFitness() {
 		return fitness;
+	}
+	public Node cloneSimple(){
+		Node tmp = new Node();
+		tmp.fitness = fitness;
+		tmp.dfitness = dfitness;
+		tmp.chromo = chromo;
+		tmp.m = m;
+		tmp.c = c;
+		tmp.r = r;
+		tmp.revisited = revisited;
+		tmp.exploreRootSubTree = exploreRootSubTree;
+		return tmp;
+
 	}
 	public double getDoubleFitness() {
 		return Double.parseDouble(fitness);
 	}
 	public void setFitness(String fitness) {
 		this.fitness = fitness;
+		dfitness = Double.parseDouble(fitness);
 	}
 	@Deprecated
 	public int ones1, ones2, ones3; //just for comparing speed
-	private boolean m; 
-	private boolean c; 
-	private boolean r;
-	private boolean pareto;
-	private boolean revisited;
-	private boolean exploreRootSubTree;
+	protected boolean m; 
+	protected boolean c; 
+	protected boolean r;
+	protected boolean pareto;
+	protected boolean revisited;
+	protected boolean exploreRootSubTree;
 	public ArrayList<Node> getParents() {
 		return parents;
 	}
@@ -375,14 +390,30 @@ public class Node implements Comparable<Node> {
 		if (diff>epsilon) x = diff;
 		return x;
 	}
-	public void clearTreeData() {
+	/**
+	 * To calculate revisited!
+	 */
+	public void clearRevisited() {
+		revisits = 0;
+		revisited = false;		
+	}
+	
+	/**
+	 * Clear before recalc ATree based  eeCriteria
+	 */
+	public void clearExploreTreeData() {
+		setExploreRootSubTree(true);
+	}
+	public void clearDominantTreeData() {
 		parent = null;
 		childrens.clear();
-		revisits = 0;
-		revisited = false;
-		setExploreRootSubTree(true);
-		
 	}
+	public void clearAllTreeData() {
+		clearRevisited();
+		clearDominantTreeData();
+		clearExploreTreeData();
+	}
+	
 	public boolean isExploreRootSubTree() {
 		return exploreRootSubTree;
 	}

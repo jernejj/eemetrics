@@ -33,5 +33,15 @@ public class Util {
 		}
 		return r/x.length;
 	}
+	public static boolean euclidian_normalizedIsIn(double[] x, double[] y,
+			double[] intervals, double maxDistance) {
+		double r=0;
+		for (int i=0; i<x.length; i++) {
+			r+= (Math.abs(x[i]-y[i])/intervals[i])/x.length;
+			if (r>maxDistance) return false;
+			
+		}
+		return true;
+	}
 	
 }

@@ -47,7 +47,7 @@ public class LogFileLineParser {
 					r.addParent(p1);
 				} else 
 				{
-					System.err.println("Log file error ("+key+")");
+					System.err.println("Log file error No key ("+key+")");
 				}
 				break;
 			case IN:

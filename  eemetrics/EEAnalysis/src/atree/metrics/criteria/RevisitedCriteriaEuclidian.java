@@ -16,7 +16,6 @@ public class RevisitedCriteriaEuclidian implements IRevisitedCriteria {
 		NodeRealValues c = (NodeRealValues) child;
 		if (Util.euclidian(p.getXV(), c.getXV())<maxDistance) 
 		{
-			//System.out.println("distance:"+Util.euclidian(p.getXV(), c.getXV()));
 			return true; 
 		}
 		return false;
@@ -25,6 +24,23 @@ public class RevisitedCriteriaEuclidian implements IRevisitedCriteria {
 	@Override
 	public String getInfo() {
 		return "revisited if euclidian distance $<$"+maxDistance;
+	}
+
+	@Override
+	public double getDistance(Node parent, Node child) {
+		NodeRealValues p = (NodeRealValues) parent;
+		NodeRealValues c = (NodeRealValues) child;
+		return Util.euclidian(p.getXV(), c.getXV());
+	}
+
+	@Override
+	public boolean isDistanceInside(double d) {
+		if (d<maxDistance) 
+		{
+			return true; 
+		}
+		return false;
+
 	}
 	
 }

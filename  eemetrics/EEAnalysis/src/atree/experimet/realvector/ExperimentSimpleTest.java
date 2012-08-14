@@ -25,7 +25,7 @@ public class ExperimentSimpleTest {
 		columsForSumTable.add(PrintStatATMetrics.getDoubleInfoColumn());
 		ArrayList<String> tableHeadsForSumTable = new ArrayList<String>();
 		String tmpSourceFileName;
-		final int MAX_RUNS = 3; //number of repeated
+		final int MAX_RUNS = 1; //number of repeated
 		String rootPath = "test_cases/realvector/de/";
 		tmpSourceFileName = rootPath + "test_a";
 		String problemExt = ".stat";
@@ -38,7 +38,7 @@ public class ExperimentSimpleTest {
 			n.createAllFromRealVector(fileName, 500); // read first 500
 			m = new ATMetrics(n.getAllNodes(),
 					new DominantParentCriteriaEuclidianDistanceRealValues(),
-					new EECriteriaEuclidianDistance(1.5),
+					new EECriteriaEuclidianDistance(1),
 					new RevisitedCriteriaEuclidian(0.00001));
 			sumTableColumnStatistic.add(m);
 		}
