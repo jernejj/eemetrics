@@ -182,12 +182,16 @@ public class ATMetrics {
 	 * references This method uses constructor based Criteria interfaces.
 	 * 
 	 * @param list
+	 * @param b 
 	 */
-	public void addGeneration(ArrayList<Node> list) {
+	public void addGeneration(ArrayList<Node> list, boolean b) {
 		setDominantParents(list);
-		clearNodesRevisitedData(list); // clear info
 		allNodes.addAll(list);
-		setRevisitedAllCriteriaApproximation(); //recalc new values
+		count = allNodes.size(); 
+		if (b) {
+			clearNodesRevisitedData(list); // clear info
+			setRevisitedAllCriteriaApproximation(); //recalc new values
+		}
 		for (Node e:list) {
 			if (e.getParent()==null) { //root
 				splitTrees.add(e);
