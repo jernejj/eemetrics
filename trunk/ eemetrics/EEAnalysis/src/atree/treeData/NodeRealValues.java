@@ -16,6 +16,17 @@ public double xv[]; //x values
 		super();
 	}
 	
+	public NodeRealValues(int iPop, double[] genes, int mGeneration,
+			boolean spwnMutate, boolean spwnCross, boolean spwnRepair) {
+		setIdGen(mGeneration);
+		setIdInPop(iPop);
+		setChromo(genes);
+		xv = genes;
+		setM(spwnMutate);
+		setC(spwnCross);
+		setR(spwnRepair);
+	}
+
 	public double[] getXV() {
 		return xv;
 	}

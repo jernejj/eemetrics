@@ -33,6 +33,10 @@ public class Node implements Comparable<Node> {
 	public double getDoubleFitness() {
 		return Double.parseDouble(fitness);
 	}
+	public void setFitness(double fitness) {
+		this.fitness = ""+fitness;
+		dfitness = fitness;
+	}
 	public void setFitness(String fitness) {
 		this.fitness = fitness;
 		dfitness = Double.parseDouble(fitness);
@@ -80,6 +84,7 @@ public class Node implements Comparable<Node> {
 		tmp=false;
 		setExploreRootSubTree(true);
 	}
+	
 	public void addRevisited()  {
 		revisits++;
 	}
@@ -108,6 +113,13 @@ public class Node implements Comparable<Node> {
 	public void addChild(Node c) {
 		childrens.add(c);
 	}
+	/*Alex
+	public void setParent(Node parent) {
+		this.mParent = parent;
+		//if (mParent != null)
+		//	mParent.addChild(this);
+	}
+	*/
 	public void setParent(Node parent) {
 		this.parent = parent;
 		if (parent!=null)
