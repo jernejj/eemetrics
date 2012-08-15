@@ -3,10 +3,14 @@ package atree.metrics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Stack;
 
+import atree.metrics.criteria.DominantParentCriteriaNormalizedEuclidianDistance;
+import atree.metrics.criteria.EECriteriaNormalizedEuclidianDistance;
 import atree.metrics.criteria.IDominantParentCriteria;
 import atree.metrics.criteria.IEECriteria;
 import atree.metrics.criteria.IRevisitedCriteria;
+import atree.metrics.criteria.RevisitedCriteriaNormalizedEuclidian;
 import atree.treeData.CompareMinBest;
 import atree.treeData.ICompare;
 import atree.treeData.Node;
@@ -22,6 +26,8 @@ public class ATMetrics {
 	private double x; // use criteria interfaces for this!
 	private long count;
 	private long differentSolutions;
+    private static Stack<Node> toExamine = new Stack<Node>(); //Alex
+    private static Stack<Node> toExamine2 = new Stack<Node>(); //Alex
 
 	public long getDifferentSolutions() {
 		return differentSolutions;
@@ -70,6 +76,52 @@ public class ATMetrics {
 		allNodes.add(n);
 		count = allNodes.size(); // need optimization!
 	}
+	/**
+	 * Alex
+	 */
+	   private void nonRecursivefillRootLeafsAndCountCriteria() {
+	    	int total =0;
+	    	splitTrees.addAll(initTreesRootNodes);
+	        for (Node n : initTreesRootNodes) {
+
+	            n.setExploreRootSubTree(true);
+	            total+= nonRecursiveFillRootTopDownCriteria(n);
+	        }
+	        //System.out.println("size "+total);
+	        this.count = total+initTreesRootNodes.size();
+	    }
+
+	    /**
+	     * Alex
+	     * A stack-based summation routine that uses loop optimization like
+	     * recursive implementation 1.
+	     *
+	     * @param root
+	     * @return
+	     */
+	    private int nonRecursiveFillRootTopDownCriteria(Node root){
+	    	int total=0;
+	        toExamine.push(root);
+	        
+	        while (!toExamine.isEmpty()) {
+	            Node node = toExamine.pop();
+	            ArrayList<Node> children = node.getChildrens();
+
+	            int size = children.size();
+	            total+=size;
+	            for (int j = 0; j < size; ++j) {
+	                Node child = (Node) children.get(j);
+	                if (eeCriteria.isExplore(root, child)) {
+	                    splitTrees.add(child);
+	                    child.setExploreRootSubTree(true);
+	                } else {
+	                    child.setExploreRootSubTree(false);
+	                }
+	                toExamine.push(child);
+	            }
+	        }
+	        return total;
+	    }
 
 	public ATMetrics(ArrayList<Node> allNodes) {
 		super();
@@ -89,6 +141,7 @@ public class ATMetrics {
 		setRevisitedAllCriteriaApproximation(r);
 		setDominantParents(setParent); // fills setDominantParents
 		calculateExplore(c);
+		//nonRecursivefillRootLeafsAndCountCriteria();
 	}
 
 	public String getLatexInfo() {
@@ -595,6 +648,24 @@ public class ATMetrics {
 		}
 		return Util.divide(leafs, splitTrees.size());
 		// return 0;
+	}
+
+	public void setEECriteria(
+			IEECriteria eeCriteriaNormalizedEuclidianDistance) {
+		eeCriteria = eeCriteriaNormalizedEuclidianDistance;
+		
+	}
+
+	public void setDominantParentCriteria(
+			IDominantParentCriteria dominantParentCriteriaNormalizedEuclidianDistance) {
+		setDominantParentCriteria = dominantParentCriteriaNormalizedEuclidianDistance;
+		
+	}
+
+	public void setRevisitedCriteria(
+			IRevisitedCriteria revisitedCriteriaNormalizedEuclidian) {
+		revisitedCriteria = revisitedCriteriaNormalizedEuclidian;
+		
 	}
 
 }
