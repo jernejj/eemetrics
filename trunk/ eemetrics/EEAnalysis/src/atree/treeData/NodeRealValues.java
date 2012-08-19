@@ -58,7 +58,11 @@ public double xv[]; //x values
 		}
 	}
 	@Override
-	public String getChromo() { 
-		return Arrays.toString(xv);
+	public String getChromo() {
+		StringBuffer sb = new StringBuffer();
+		for (int i=0; i<xv.length;i++) {
+			sb.append(xv[i]).append(" ");
+		}
+		return sb.toString().trim();
 	}
 }
