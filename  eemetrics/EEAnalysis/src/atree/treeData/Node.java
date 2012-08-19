@@ -74,6 +74,7 @@ public class Node implements Comparable<Node> {
 			parents.add(p);
 		}
 	}
+	
 	public Node() {
 		super();
 		parents = new ArrayList<Node>(); 
@@ -202,6 +203,9 @@ public class Node implements Comparable<Node> {
 	public String getID() {
 		return "("+getIdGen()+","+getIdInPop()+")";
 	}
+	public String getID_id_gen() {
+		return "("+getIdInPop()+","+getIdGen()+")";
+	}
 	public String getID(Node n) {
 		if (n==null) return "(-1,-1)";
 		return n.getID();
@@ -221,6 +225,7 @@ public class Node implements Comparable<Node> {
 	public String getCMR() {
 		return getC()+getM()+getR();
 	}
+	
 	public String printChildrens() {
 		StringBuffer sb= new StringBuffer();
 		for (Node t:childrens) {
@@ -433,4 +438,26 @@ public class Node implements Comparable<Node> {
 		this.exploreRootSubTree = subTreeRoot;
 	}
 	
+	public String toFileFormat() {
+		Node tmp;
+		StringBuffer sb = new StringBuffer();
+		if (parents.size() == 0) {
+			sb.append("p(-1,-1) ");
+		} else {
+			for (int m = 0; m < parents.size(); m++) {
+				tmp = parents.get(m);
+				sb.append("p" + (m + 1) + tmp.getID_id_gen() + " ");
+			}
+		}
+		sb.append("id" + getID_id_gen() + " ");
+		sb.append("in(");
+		sb.append(getChromo());
+		sb.append(")");
+		sb.append(" c").append(isC() ? "1" : "0");
+		sb.append(" m").append(isM() ? "1" : "0");
+		sb.append(" r").append(isR() ? "1" : "0");
+		;
+		sb.append(" fit(").append(getFitness()).append(")");
+		return sb.toString();
+	}
 }

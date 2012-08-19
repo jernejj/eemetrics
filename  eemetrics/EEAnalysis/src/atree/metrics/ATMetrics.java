@@ -1,20 +1,18 @@
 package atree.metrics;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Stack;
 
-import atree.metrics.criteria.DominantParentCriteriaNormalizedEuclidianDistance;
-import atree.metrics.criteria.EECriteriaNormalizedEuclidianDistance;
 import atree.metrics.criteria.IDominantParentCriteria;
 import atree.metrics.criteria.IEECriteria;
 import atree.metrics.criteria.IRevisitedCriteria;
-import atree.metrics.criteria.RevisitedCriteriaNormalizedEuclidian;
 import atree.treeData.CompareMinBest;
 import atree.treeData.ICompare;
 import atree.treeData.Node;
-import atree.treeData.Nodes;
+import atree.treeData.SaveHistoryToFile;
 import atree.util.MeanStDev;
 import atree.util.Util;
 
@@ -28,7 +26,10 @@ public class ATMetrics {
 	private long differentSolutions;
     private static Stack<Node> toExamine = new Stack<Node>(); //Alex
     private static Stack<Node> toExamine2 = new Stack<Node>(); //Alex
-
+    private SaveHistoryToFile save;
+    public void setLog( SaveHistoryToFile save) {
+    	this.save = save;
+    }
 	public long getDifferentSolutions() {
 		return differentSolutions;
 	}
@@ -184,7 +185,13 @@ public class ATMetrics {
 	 * @param list
 	 * @param b 
 	 */
-	public void addGeneration(ArrayList<Node> list, boolean b) {
+	public void addGeneration(ArrayList<Node> list, boolean b, int g) {
+	
+		/*for (Node e:list) {
+			if (e.getChildrens().size()>0) {
+				System.out.println("new GGG?"+e);
+			}
+		}*/	
 		setDominantParents(list);
 		allNodes.addAll(list);
 		count = allNodes.size(); 
@@ -192,12 +199,17 @@ public class ATMetrics {
 			clearNodesRevisitedData(list); // clear info
 			setRevisitedAllCriteriaApproximation(); //recalc new values
 		}
+
 		for (Node e:list) {
 			if (e.getParent()==null) { //root
 				splitTrees.add(e);
 				e.setExploreRootSubTree(true);
-			} else //check  
+			} else {//check  {
 				recursiveFillRootTopDownCriteria(e.getParent(),e);
+		}
+		}
+		if (save!=null) {
+			save.writeGeneartion(list, g, "");
 		}
 
 	}
@@ -207,11 +219,11 @@ public class ATMetrics {
 		setDominantParents(allNodes);
 	}
 
-	private void setDominantParents(ArrayList<Node> allNodes) {
-		clearNodesDominant(allNodes);
+	private void setDominantParents(ArrayList<Node> lista) {
+		clearNodesDominant(lista);
 		Node tmp;
-		for (int i = 0; i < allNodes.size(); i++) {
-			tmp = allNodes.get(i);
+		for (int i = 0; i < lista.size(); i++) {
+			tmp = lista.get(i);
 			if (compare.isFirstBetter(tmp, best))
 				best = tmp; // sets best
 			setDominantParentCriteria.setDominantParent(tmp);
