@@ -19,6 +19,7 @@ public class ATMetrics {
 	private ArrayList<Node> initTreesRootNodes;
 	private ArrayList<Node> splitTrees; // only tree root nodes
 	private ArrayList<Node> allNodes;
+	private LogExploreInGenerationList logGeneartions;
 	@Deprecated
 	private double x; // use criteria interfaces for this!
 	private long count;
@@ -26,6 +27,9 @@ public class ATMetrics {
     private static Stack<Node> toExamine = new Stack<Node>(); //Alex
     private static Stack<Node> toExamine2 = new Stack<Node>(); //Alex
     private SaveHistoryToFile save;
+    public LogExploreInGenerationList getLogExploreInGenerationList() {
+    	return logGeneartions;
+    }
     public void setLog( SaveHistoryToFile save) {
     	this.save = save;
     }
@@ -126,6 +130,7 @@ public class ATMetrics {
 	public ATMetrics(ArrayList<Node> allNodes) {
 		super();
 		best = null;
+		logGeneartions = new LogExploreInGenerationList();
 		compare = new CompareMinBest();
 		initTreesRootNodes = new ArrayList<Node>();
 		splitTrees = new ArrayList<Node>();
@@ -184,7 +189,7 @@ public class ATMetrics {
 	 * @param list
 	 * @param b 
 	 */
-	public void addGeneration(ArrayList<Node> list, boolean b, int g) {
+	public void addGeneration(ArrayList<Node> list, boolean b, int g, boolean logExploration) {
 	
 		/*for (Node e:list) {
 			if (e.getChildrens().size()>0) {
@@ -210,9 +215,13 @@ public class ATMetrics {
 		if (save!=null) {
 			save.writeGeneartion(list, g, "");
 		}
+		if (logExploration) {
+			logGeneartions.add(g, explorRatio());
+		}
+		
 
 	}
-
+	
 	public void setDominantParents(IDominantParentCriteria setParent) {
 		this.setDominantParentCriteria = setParent;
 		setDominantParents(allNodes);

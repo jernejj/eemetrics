@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
 
+import atree.metrics.ATMetrics;
+import atree.metrics.MetricsValues;
+import atree.metrics.criteria.IDominantParentCriteria;
 import atree.metrics.criteria.IRevisitedCriteria;
 import atree.util.LogFileLineParser;
 
@@ -17,6 +20,7 @@ public class Nodes {
 	private ArrayList<Node> initTrees;
 	private ArrayList<Node> paretoList;
 	private ArrayList<Node> allNodes;
+	private ArrayList<Node> generation;
 	public static final int SCENARIO_NORMAL = 0;
 	public static final int SCENARIO_OPTIMISTIC = 1;
 	public static final int SCENARIO_SEMI_OPTIMISTIC = 2;
@@ -67,6 +71,7 @@ public class Nodes {
 		initTrees = new ArrayList<Node>();
 		paretoList = new ArrayList<Node>();
 		allNodes = new ArrayList<Node>();
+		generation = new ArrayList<Node>();
 	}
 
 	public void createAllBarbara(String file) {
@@ -347,7 +352,38 @@ public class Nodes {
 			e.printStackTrace();
 		}
 	}
+/*	public ArrayList<MetricsValues> createFromRealVectorAndCalculateGenarationByGeneration(BufferedReader br, int maxgen, int calcEveryXgeneration) {
+		ArrayList<MetricsValues> allMetricsCalculations = new ArrayList<MetricsValues>(); 
+		ATMetrics am;
+		int currGen = 0;
+		try {
+			String s;
+			LogFileLineParser parser = new LogFileLineParser();
+			while (null != (s = br.readLine())) {
+				if (s.contains("Generation:")) {
+					s = s.replaceFirst("Generation:", "");
+					currGen = Integer.parseInt(s.trim());
+					// System.out.println("Generation:"+currGen);
+					if ((currGen==0) || (currGen%calcEveryXgeneration==0) || (currGen==maxgen)) {
+						
+					}
+					if ((currGen > maxgen))
+						return;
+				}
 
+				if (s.contains("id(")) { // new individual create node
+					put(parser.convertFromString(s, this));
+				}
+
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+*/
 	public void createAllFromRealVector(BufferedReader br, int maxgen) {
 		int currGen = 0;
 		try {
@@ -374,4 +410,43 @@ public class Nodes {
 		}
 
 	}
+	//This method calculates explore ratio for every generation 
+	public void createAllFromRealVectorWithExploreRatio(BufferedReader br, int maxgen, ATMetrics at) {
+		int currGen = 0;
+		int exGen;
+		generation.clear(); //empty genertaion
+		try {
+			String s;
+			Node tmp;
+			LogFileLineParser parser = new LogFileLineParser();
+			while (null != (s = br.readLine())) {
+				if (s.contains("Generation:")) {
+					s = s.replaceFirst("Generation:", "");
+					exGen =currGen;
+					currGen = Integer.parseInt(s.trim());
+					if (currGen>0) { //save ex generation
+					  //System.out.println("generation size;"+generation.size());
+					  at.addGeneration(generation, false, exGen, true);
+					}
+					generation.clear(); //prepare for new one
+					// System.out.println("Generation:"+currGen);
+					if ((currGen > maxgen))
+						return;
+				}
+
+				if (s.contains("id(")) { // new individual create node
+					tmp = parser.convertFromString(s, this);
+					put(tmp);
+					generation.add(tmp);
+				}
+
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }
